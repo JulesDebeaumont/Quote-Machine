@@ -1,0 +1,24 @@
+{%  extends "base.html.twig" %}
+
+
+{% block stylesheets %}
+    {{  parent() }}
+    <link rel="stylesheet" href="/css/style.css">
+{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des citations</h1>
+    <ul>
+
+    {% for quote in quotes %}
+    <li>
+        <span class="content">{{ quote.content }}</span>
+        <span class="meta">--{{ quote.meta }}</span>
+    </li>
+    {%  endfor  %}
+
+    </ul>
+
+
+{% endblock %}

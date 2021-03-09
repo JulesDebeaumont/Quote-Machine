@@ -1,0 +1,19 @@
+li
+{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.meta
+{
+    color: #707070;
+    margin-bottom: 23px;
+}
+
+.content
+{
+    font-size: 1.2em;
+    font-weight: bold;
+}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,8 +11,10 @@ class QuoteController extends AbstractController
 {
     /**
      * @Route("/quotes", name="quote_index")
+     * @param Request $request
+     * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
 
         $quotes = [
@@ -34,6 +37,22 @@ class QuoteController extends AbstractController
 
         ];
 
+
+        $research = $request->query->get('research');
+        //dump($research);
+
+        if ($research)
+        {
+            $filteredQuotes = [];
+
+            foreach ($quotes as $quote)
+            {
+
+                stripos($quote['content'], $research) ? array_push($filteredQuotes, $quote) : null;
+
+            }
+            $quotes = $filteredQuotes;
+        }
 
         return $this->render('quote/index.html.twig', ['quotes' => $quotes]);
     }

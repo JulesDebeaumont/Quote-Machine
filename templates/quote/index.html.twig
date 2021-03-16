@@ -9,6 +9,18 @@
 {% block body %}
 
     <h1>Liste des citations</h1>
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Quote Machine</a>
+        <form class="form-inline" method="GET">
+            <label>Rechercher :
+                <input name="research" type="text">
+            </label>
+            <button type="submit">Rechercher</button>
+        </form>
+    </nav>
+
+
     <ul>
 
     {% for quote in quotes %}

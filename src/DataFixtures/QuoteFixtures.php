@@ -12,7 +12,7 @@ class QuoteFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        QuoteFactory::createMany(5);
+        QuoteFactory::createMany(20);
 
         /*
         $quote1 = new Quote();

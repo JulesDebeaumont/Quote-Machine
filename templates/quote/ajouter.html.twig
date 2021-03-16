@@ -1,0 +1,39 @@
+{%  extends "base.html.twig" %}
+
+
+{% block stylesheets %}
+    {{  parent() }}
+    <link rel="stylesheet" href="/css/style.css">
+{% endblock %}
+
+{% block title %}Ajouter {%  endblock %}
+
+{% block body %}
+
+    <h1>Nouvelle quote</h1>
+
+    <form method="GET"  >
+        <ul>
+            <li>
+                <label>La quote :
+                    <input name="contentAdd"  value="" size="100">
+                </label>
+            </li>
+            <li>
+                <label>La source :
+                    <input name="metaAdd"  value="">
+                </label>
+            </li>
+        </ul>
+
+        <button type="submit" class="submit2"> Ajouter !</button>
+
+
+    </form>
+
+    <div class="bottom">
+         <a href="http://localhost:8000/">Retour aux quotes</a>
+    </div>
+
+
+{% endblock %}

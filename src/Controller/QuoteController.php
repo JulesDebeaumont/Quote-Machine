@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Quote;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class QuoteController extends AbstractController
      */
     public function index(Request $request): Response
     {
-
+        /*
         $quotes = [
             [
                 'content' => ' Sire, Sire ! On en a gros !',
@@ -36,6 +37,13 @@ class QuoteController extends AbstractController
             ]
 
         ];
+        */
+
+
+        $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
+        $quotes = $repositoryQuote->findAll();
+
+        //dump($quotes);
 
 
         $research = $request->query->get('research');
@@ -47,11 +55,82 @@ class QuoteController extends AbstractController
 
             foreach ($quotes as $quote)
             {
-                stripos($quote['content'], $research) ? array_push($filteredQuotes, $quote) : null;
+                stripos($quote->getContent(), $research) ? array_push($filteredQuotes, $quote) : null;
             }
             $quotes = $filteredQuotes;
         }
 
         return $this->render('quote/index.html.twig', ['quotes' => $quotes]);
     }
+
+
+    /**
+     * @param Quote $quote
+     * @param Request $request
+     * @return Response
+     * @Route("/quotes/modifier/{id}", name="quote_modifier")
+     */
+    public function modifier(Quote $quote, Request $request) : Response
+    {
+        $quoteManager = $this->getDoctrine()->getManager();
+
+        $contentMod = $request->query->get('contentMod');
+        $metaMod= $request->query->get('metaMod');
+
+        if ($contentMod && $metaMod)
+        {
+            $quote->setContent($contentMod);
+            $quote->setMeta($metaMod);
+            $quoteManager->flush();
+
+            return $this->redirectToRoute('quote_index', [], 301);
+        }
+
+        return $this->render('quote/modifier.html.twig', ['quote' => $quote]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("/quotes/ajouter", name="quote_ajouter")
+     */
+    public function ajouter(Request $request): Response
+    {
+        $quoteManager = $this->getDoctrine()->getManager();
+
+        $contentAdd = $request->query->get('contentAdd');
+        $metaAdd= $request->query->get('metaAdd');
+
+        if ($contentAdd && $metaAdd)
+        {
+            $quote = new Quote();
+            $quote->setContent($contentAdd);
+            $quote->setMeta($metaAdd);
+
+            $quoteManager->persist($quote);
+            $quoteManager->flush();
+
+            return $this->redirectToRoute('quote_index', [], 301);
+        }
+
+        return $this->render('quote/ajouter.html.twig', []);
+    }
+
+
+    /**
+     * @param Quote $quote
+     * @return Response
+     * @Route("/quotes/supprimer/{id}", name="quote_supprimer")
+     */
+    public function supprimer(Quote $quote): Response
+    {
+        $quoteManager= $this->getDoctrine()->getManager();
+
+        $quoteManager->remove($quote);
+        $quoteManager->flush();
+
+        return $this->redirectToRoute('quote_index', [], 301);
+    }
+
 }

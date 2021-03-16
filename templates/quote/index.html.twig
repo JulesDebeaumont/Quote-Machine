@@ -12,6 +12,7 @@
 
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand">Quote Machine</a>
+        <a href="http://localhost:8000/quotes/ajouter">Ajouter une quote tout de suite !</a>
         <form class="form-inline" method="GET">
             <label>Rechercher :
                 <input name="research" type="text">
@@ -26,11 +27,18 @@
     {% for quote in quotes %}
     <li>
         <span class="content">{{ quote.content }}</span>
-        <span class="meta">--{{ quote.meta }}</span>
+        <span class="meta">
+            --{{ quote.meta }}
+            <a href="http://localhost:8000/quotes/modifier/{{ quote.id }}">Modifier</a>
+            |
+            <a href="http://localhost:8000/quotes/supprimer/{{ quote.id }}">Supprimer</a>
+        </span>
     </li>
     {%  endfor  %}
 
     </ul>
+
+
 
 
 {% endblock %}

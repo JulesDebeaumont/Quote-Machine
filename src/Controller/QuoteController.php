@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Form\QuoteAddFormType;
+use App\Form\QuoteModifyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,13 +57,16 @@ class QuoteController extends AbstractController
 
             foreach ($quotes as $quote)
             {
-                stripos($quote->getContent(), $research) ? array_push($filteredQuotes, $quote) : null;
+                mb_stripos($quote->getContent(), $research) ? array_push($filteredQuotes, $quote) : null;
             }
             $quotes = $filteredQuotes;
         }
 
         return $this->render('quote/index.html.twig', ['quotes' => $quotes]);
     }
+
+
+
 
 
     /**
@@ -73,21 +78,25 @@ class QuoteController extends AbstractController
     public function modifier(Quote $quote, Request $request) : Response
     {
         $quoteManager = $this->getDoctrine()->getManager();
+        $form = $this->createForm(QuoteModifyFormType::class, $quote);
 
-        $contentMod = $request->query->get('contentMod');
-        $metaMod= $request->query->get('metaMod');
+        $form->handleRequest($request);
 
-        if ($contentMod && $metaMod)
+
+        if ($form->isSubmitted() && $form->isValid())
         {
-            $quote->setContent($contentMod);
-            $quote->setMeta($metaMod);
+
+            $quote = $form->getData();
             $quoteManager->flush();
 
             return $this->redirectToRoute('quote_index', [], 301);
         }
 
-        return $this->render('quote/modifier.html.twig', ['quote' => $quote]);
+        return $this->render('quote/modifier.html.twig', ['quote' => $quote, 'form' => $form->createView()]);
     }
+
+
+
 
 
     /**
@@ -99,14 +108,14 @@ class QuoteController extends AbstractController
     {
         $quoteManager = $this->getDoctrine()->getManager();
 
-        $contentAdd = $request->query->get('contentAdd');
-        $metaAdd= $request->query->get('metaAdd');
+        $quote = new Quote();
+        $form = $this->createForm(QuoteModifyFormType::class, $quote);
 
-        if ($contentAdd && $metaAdd)
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
         {
-            $quote = new Quote();
-            $quote->setContent($contentAdd);
-            $quote->setMeta($metaAdd);
+            $quote = $form->getData();
 
             $quoteManager->persist($quote);
             $quoteManager->flush();
@@ -114,8 +123,12 @@ class QuoteController extends AbstractController
             return $this->redirectToRoute('quote_index', [], 301);
         }
 
-        return $this->render('quote/ajouter.html.twig', []);
+        return $this->render('quote/ajouter.html.twig', ['form' => $form->createView()]);
     }
+
+
+
+
 
 
     /**

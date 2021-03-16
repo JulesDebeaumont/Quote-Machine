@@ -47,9 +47,7 @@ class QuoteController extends AbstractController
 
             foreach ($quotes as $quote)
             {
-
                 stripos($quote['content'], $research) ? array_push($filteredQuotes, $quote) : null;
-
             }
             $quotes = $filteredQuotes;
         }

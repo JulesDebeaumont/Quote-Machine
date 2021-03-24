@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
-use App\Form\QuoteAddFormType;
 use App\Form\QuoteModifyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,48 +18,23 @@ class QuoteController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        /*
-        $quotes = [
-            [
-                'content' => ' Sire, Sire ! On en a gros !',
-                'meta' => 'Perceval, Livre II, Les Exploités'
-            ],[
-                'content' => ' Tout le monde est une pute, Grace. Nous vendons juste différentes parties de nous-mêmes.',
-                'meta' => 'Tommy Shelby'
-            ],[
-                'content' => ' Je viens de lui mettre une balle dans la tête…… Il m’a regardé de travers.',
-                'meta' => 'Tommy Shelby'
-            ],[
-                'content' => " 2500 pièces d'or ???! Eh... eh... c'est un blague? 2500 pièces d'or, mais ou voulez vous que j'trouve 2500 pièces d'or, dans l'cul d'une vache ?!",
-                'meta' => 'Seigneur Jacca, Livre I, 21 : La taxe militaire'
-            ],[
-                'content' => " J’ai pénétré leur lieu d'habitation de façon subrogative […] en tapinant.",
-                'meta' => 'Hervé de Rinel, Livre III, 91 : L’Espion'
-            ]
-
-        ];
-        */
 
 
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
-        $quotes = $repositoryQuote->findAll();
-
-        //dump($quotes);
-
 
         $research = $request->query->get('research');
+        $research = "%{$research}%";
+
+        $query = $repositoryQuote->createQueryBuilder('q')
+              ->where('q.content LIKE :research')
+              ->setParameter('research', $research)
+              ->orderBy('q.meta', 'ASC')
+              ->getQuery();
+
+        $quotes = $query->getResult();
+
+        //dump($quotes);
         //dump($research);
-
-        if ($research)
-        {
-            $filteredQuotes = [];
-
-            foreach ($quotes as $quote)
-            {
-                mb_stripos($quote->getContent(), $research) ? array_push($filteredQuotes, $quote) : null;
-            }
-            $quotes = $filteredQuotes;
-        }
 
         return $this->render('quote/index.html.twig', ['quotes' => $quotes]);
     }
@@ -73,7 +47,7 @@ class QuoteController extends AbstractController
      * @param Quote $quote
      * @param Request $request
      * @return Response
-     * @Route("/quotes/modifier/{id}", name="quote_modifier")
+     * @Route("/quotes/{id}/modifier", name="quote_modifier")
      */
     public function modifier(Quote $quote, Request $request) : Response
     {
@@ -134,7 +108,7 @@ class QuoteController extends AbstractController
     /**
      * @param Quote $quote
      * @return Response
-     * @Route("/quotes/supprimer/{id}", name="quote_supprimer")
+     * @Route("/quotes/{id}/supprimer", name="quote_supprimer")
      */
     public function supprimer(Quote $quote): Response
     {

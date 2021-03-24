@@ -1,10 +1,4 @@
-{%  extends "base.html.twig" %}
-
-
-{% block stylesheets %}
-    {{  parent() }}
-    <link rel="stylesheet" href="/css/style.css">
-{% endblock %}
+{%  extends 'base.html.twig' %}
 
 {% block title %}Modifier {%  endblock %}
 
@@ -12,10 +6,11 @@
 
     <h1>Modification de la quote {{ quote.id }}</h1>
 
-{{ form(form) }}
+    {%  form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form(form) }}
 
     <div class="bottom">
-        <a href="http://localhost:8000/">Retour</a>
+        <a href="{{  path('quote_index') }}">Retour</a>
     </div>
 
 

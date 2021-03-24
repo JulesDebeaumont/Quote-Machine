@@ -17,14 +17,10 @@ class QuoteModifyFormType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'label' => 'La quote :',
-                'required' => true,
-                'constraints' => [new Assert\Length(['min' => 1 , 'max' => 255])]
                 ])
 
             ->add('meta', TextType::class, [
                 'label' => 'La source :',
-                'required' => true,
-                'constraints' => [new Assert\Length(['min' => 1 , 'max' => 255])]
                 ])
 
             ->add('save', SubmitType::class, [

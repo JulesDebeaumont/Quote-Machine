@@ -32,9 +32,11 @@ class Quote
     private $meta;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class)
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="quotes")
      */
     private $category;
+
+
 
 
 

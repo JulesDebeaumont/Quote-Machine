@@ -39,15 +39,10 @@ Password: `iutinfo`
 
 ### 3_Create the Database:
 
-Execute the following commands:
+Run `composer reset`
 
-`php bin/console doctrine:database:create`
-`php bin/console doctrine:migration:migrate --no-interaction`
-`php bin/console doctrine:fixtures:load --no-interaction`
+*This will delete the database if there's one, create a new one depending on the actual entities of the project, apply migrations and load all fixtures.*
 
-*This will create the database depending on the actual entities of the project, apply migrations and load all fixtures.*
-
-You can also run `composer reset` ,which is a custom script from the composer.json that does exactly the same thing.
 
 
 ### 4_Launch the server:
@@ -60,5 +55,6 @@ Do a `symfony serve`
 
 ### 5_Misc:
 
+- Execute CS-Fixer in src\: `composer cs-fixer`
 - TP Link : https://tp-symfony-iut.netlify.app/
 

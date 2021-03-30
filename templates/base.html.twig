@@ -44,6 +44,17 @@
             </label>
             <button type="submit">Rechercher</button>
         </form>
+
+        <div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
+                </li>
+            </ul>
+        </div>
     </nav>
         {% block body %}
         {% endblock %}

@@ -2,18 +2,6 @@
 
 {% block body %}
 
-        <nav class="navbar navbar-light bg-light">
-            <a href="{{  path('quote_index') }}" class="navbar-brand">Quote Machine</a>
-            <a href="{{  path('quote_ajouter') }}">Ajouter une quote tout de suite !</a>
-            <form class="form-inline" method="GET">
-                <label>Rechercher :
-                    <input name="research" type="text" value="{{ app.request.query.get('research', '') }}">
-                </label>
-                <button type="submit">Rechercher</button>
-            </form>
-        </nav>
-
-
     <h1>Liste des citations</h1>
 
     <ul>
@@ -26,6 +14,9 @@
             <a href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
             |
             <a href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
+            |
+            <a href="{{ path('category_show', {'id' : quote.category.id}) }}">Du même genre..</a>
+
         </span>
     </li>
     {%  endfor  %}

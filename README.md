@@ -1,4 +1,4 @@
-#**Quote-Machine**
+#Quote-Machine
 ## TP Formation Continue DUT Info 2020-2021
 
 By:

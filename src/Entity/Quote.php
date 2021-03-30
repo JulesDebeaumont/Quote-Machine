@@ -6,7 +6,6 @@ use App\Repository\QuoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Entity(repositoryClass=QuoteRepository::class)
  */
@@ -80,6 +79,4 @@ class Quote
 
         return $this;
     }
-
-
 }

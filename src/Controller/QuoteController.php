@@ -18,8 +18,6 @@ class QuoteController extends AbstractController
      */
     public function index(Request $request): Response
     {
-
-
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
 
         $research = $request->query->get('research');
@@ -57,9 +55,7 @@ class QuoteController extends AbstractController
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $quote = $form->getData();
             $quoteManager->flush();
 
@@ -87,8 +83,7 @@ class QuoteController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $quote = $form->getData();
 
             $quoteManager->persist($quote);
@@ -119,5 +114,4 @@ class QuoteController extends AbstractController
 
         return $this->redirectToRoute('quote_index', [], 301);
     }
-
 }

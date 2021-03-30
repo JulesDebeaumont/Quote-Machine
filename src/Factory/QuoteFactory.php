@@ -29,8 +29,6 @@ final class QuoteFactory extends ModelFactory
     public function __construct()
     {
         parent::__construct();
-
-
     }
 
     protected function getDefaults(): array

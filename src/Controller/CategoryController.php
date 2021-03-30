@@ -23,12 +23,11 @@ class CategoryController extends AbstractController
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
-
         $query = $categoryRepository->createQueryBuilder('c')
-            ->select('c.id','c.name','COUNT(q.category) AS nb')
+            ->select('c.id', 'c.name', 'COUNT(q.category) AS nb')
             ->join('c.quotes', 'q')
             ->groupBy('c.name', 'c.id')
-            ->orderBy('nb', 'ASC')
+            ->orderBy('nb', 'DESC')
             ->getQuery();
 
         $categories = $query->getResult();
@@ -73,7 +72,7 @@ class CategoryController extends AbstractController
     {
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
         $query = $repositoryQuote->createQueryBuilder('q')
-            ->select('q.id','q.meta', "q.content")
+            ->select('q.id', 'q.meta', "q.content")
             ->join('q.category', 'c')
             ->orderBy('q.meta', 'ASC')
             ->getQuery();

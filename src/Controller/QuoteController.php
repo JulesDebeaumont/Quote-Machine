@@ -120,4 +120,22 @@ class QuoteController extends AbstractController
 
         return $this->redirectToRoute('quote_index', [], 301);
     }
+
+    /**
+     * @return Response
+     * @Route ("/quotes/random", name="quote_random")
+     */
+    public function random(): Response
+    {
+        $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
+
+        $query = $repositoryQuote->createQueryBuilder('q')
+            ->orderBy('RAND()')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        $quote = $query->getResult();
+
+        return $this->render('quote/random.html.twig', ['quote' => $quote]);
+    }
 }

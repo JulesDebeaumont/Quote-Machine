@@ -29,22 +29,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                <a class="nav-link" href="{{  path('quote_index') }}">Liste des quotes</a>
+                     <a class="nav-link" href="{{  path('quote_index') }}">Liste des quotes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{  path('quote_random') }}">Citation aléatoire</a>
                 </li>
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
-                <a class="nav-link" href="{{  path('quote_ajouter') }}">Ajouter une quote</a>
+                   <a class="nav-link" href="{{  path('quote_ajouter') }}">Ajouter une quote</a>
                 </li>
                 {% endif %}
 
                 <li class="nav-item">
-                <a class="nav-link" href="{{  path('category_index') }}">Liste des catégories</a>
+                      <a class="nav-link" href="{{  path('category_index') }}">Liste des catégories</a>
                 </li>
 
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                <a class="nav-link" href="{{  path('category_new') }}">Ajouter une catégorie</a>
+                     <a class="nav-link" href="{{  path('category_new') }}">Ajouter une catégorie</a>
                 </li>
                 {% endif %}
 

@@ -32,4 +32,5 @@ class UserFixtures extends Fixture
 
         UserFactory::createMany(4); //pour random values
     }
+
 }

@@ -9,15 +9,24 @@
     {% for quote in quotes %}
     <li>
         <span class="content">{{ quote.content }}</span>
+
         <span class="meta">
             --{{ quote.meta }}
-            <a href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
+               href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
             |
-            <a href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
+            <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
+               href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
+
+            {% endif %}
             |
-            <a href="{{ path('category_show', {'id' : quote.category.id}) }}">Du même genre..</a>
+            <a class="badge badge-primary"
+               href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
 
         </span>
+
     </li>
     {%  endfor  %}
 

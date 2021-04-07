@@ -17,7 +17,13 @@
     </head>
     <body class="ml-3">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    {% set theme = '#f0f0f0' %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% set theme = '#eaf0df' %}
+    {% endif %}
+
+    <nav class="navbar navbar-expand-lg mb-3 navbar-light " style="background-color: {{ theme }}">
+
         <a href="{{  path('quote_index') }}" class="navbar-brand">Quote Machine</a>
         |
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,16 +31,23 @@
                 <li class="nav-item">
                 <a class="nav-link" href="{{  path('quote_index') }}">Liste des quotes</a>
                 </li>
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
                 <a class="nav-link" href="{{  path('quote_ajouter') }}">Ajouter une quote</a>
                 </li>
+                {% endif %}
 
                 <li class="nav-item">
                 <a class="nav-link" href="{{  path('category_index') }}">Liste des catégories</a>
                 </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                 <a class="nav-link" href="{{  path('category_new') }}">Ajouter une catégorie</a>
                 </li>
+                {% endif %}
+
             </ul>
         </div>
 
@@ -47,12 +60,25 @@
 
         <div>
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
-                </li>
+
+                {% if app.user %}
+
+                    <li>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
+                    </li>
+                    <li>
+                        <a class="nav-link">Welcome {{ app.user.name }}</a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">S'enregistrer</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
     </nav>

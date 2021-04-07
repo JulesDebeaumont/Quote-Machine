@@ -49,6 +49,8 @@ class QuoteController extends AbstractController
      */
     public function modifier(Quote $quote, Request $request) : Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $quoteManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(QuoteModifyFormType::class, $quote);
 
@@ -76,6 +78,8 @@ class QuoteController extends AbstractController
      */
     public function ajouter(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $quoteManager = $this->getDoctrine()->getManager();
 
         $quote = new Quote();
@@ -107,6 +111,8 @@ class QuoteController extends AbstractController
      */
     public function supprimer(Quote $quote): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $quoteManager= $this->getDoctrine()->getManager();
 
         $quoteManager->remove($quote);

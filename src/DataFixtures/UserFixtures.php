@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -32,5 +31,4 @@ class UserFixtures extends Fixture
 
         UserFactory::createMany(4); //pour random values
     }
-
 }

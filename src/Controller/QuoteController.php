@@ -79,8 +79,6 @@ class QuoteController extends AbstractController
 
 
 
-
-
     /**
      * @param Request $request
      * @return Response

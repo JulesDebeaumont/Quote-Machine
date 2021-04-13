@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @Vich\Uploadable()
  */
 class Category
 {
@@ -37,7 +38,7 @@ class Category
     private $imageName;
 
     /**
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="categories_images", fileNameProperty="imageName")
      */
     private $imageFile;
 
@@ -122,7 +123,7 @@ class Category
         return $this;
     }
 
-    public function setImageFile(?File $imageFile = null): void
+    public function setImageFile(?File $imageFile = null): self
     {
         $this->imageFile = $imageFile;
 
@@ -131,6 +132,8 @@ class Category
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+
+        return $this;
     }
 
     public function getImageFile(): ?File

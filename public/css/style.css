@@ -15,6 +15,8 @@ ul
 {
     color: #707070;
     margin-bottom: 23px;
+    display: flex;
+
 }
 
 
@@ -44,4 +46,15 @@ h1
 .navigation
 {
 margin-top: 50px;
+}
+
+.meta > a , .meta > form > button
+{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.badge
+{
+    align-self: center;
 }

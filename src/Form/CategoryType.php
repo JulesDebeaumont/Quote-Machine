@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CategoryType extends AbstractType
 {
@@ -15,7 +16,12 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de la catégorie :',
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Upload',
+                'required' => false,
             ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

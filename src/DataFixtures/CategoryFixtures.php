@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
+use App\Factory\CategoryFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -10,15 +10,16 @@ class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $category1 = new Category();
-        $category1->setName('Film');
-        $manager->persist($category1);
+        $categories = json_decode(file_get_contents(
+            __DIR__ .
+            DIRECTORY_SEPARATOR .
+            'data' .
+            DIRECTORY_SEPARATOR .
+            'category.json'
+        ), true);
 
-        $category2 = new Category();
-        $category2->setName('Roman');
-        $manager->persist($category2);
-
-
-        $manager->flush();
+        foreach ($categories as $category) {
+            CategoryFactory::new()->create($category);
+        }
     }
 }

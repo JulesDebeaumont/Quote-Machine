@@ -77,6 +77,4 @@ class Quote
 
         return $this;
     }
-
-
 }

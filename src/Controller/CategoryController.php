@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Quote;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +25,9 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository): Response
     {
         $query = $categoryRepository->createQueryBuilder('c')
-            ->select('c.id', 'c.name', 'COUNT(q.category) AS nb')
+            ->select('c AS category', 'COUNT(q.category) AS nb')
             ->join('c.quotes', 'q')
-            ->groupBy('c.name', 'c.id')
+            ->groupBy('c')
             ->orderBy('nb', 'DESC')
             ->getQuery();
 
@@ -67,12 +68,13 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="category_show", methods={"GET"})
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @param Category $category
      * @return Response $request
      */
-    public function show(Category $category): Response
+    public function show(PaginatorInterface $paginator, Request $request, Category $category): Response
     {
-
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
         $query = $repositoryQuote->createQueryBuilder('q')
             ->select('q.id', 'q.meta', "q.content")
@@ -80,11 +82,17 @@ class CategoryController extends AbstractController
             ->orderBy('q.meta', 'ASC')
             ->getQuery();
 
-        $quotes = $query->getResult();
+        //$quotes = $query->getResult();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            7
+        );
 
         return $this->render('category/show.html.twig', [
             'category' => $category,
-            'quotes' => $quotes,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -96,7 +104,6 @@ class CategoryController extends AbstractController
      */
     public function edit(Request $request, Category $category): Response
     {
-
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $form = $this->createForm(CategoryType::class, $category);

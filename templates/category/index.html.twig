@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{%  dump(categories) %}
 {% block title %}Category index{% endblock %}
 
 {% block body %}
@@ -10,23 +10,20 @@
     <ul>
         {% for category in categories %}
             <li>
-                <span class="content">{{ category.name }}</span>
+                <img src="{{ vich_uploader_asset(category.category, "imageFile") }}" alt="{{ category.category.name }}"/>
+                <span class="content">{{ category.category.name }}</span>
                 <span class="meta">
-                --<a href="{{  path('category_show', {'id': category.id}) }}"> Utiliser par {{ category.nb }} quotes</a>
+                --<a href="{{  path('category_show', {'id': category.category.id}) }}"> Utiliser par {{ category.nb }} quotes</a>
 
                     {% if is_granted('ROLE_ADMIN') %}
                 |
                 <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
-                   href="{{ path('category_edit', {'id' : category.id}) }}">Modifier</a>
+                   href="{{ path('category_edit', {'id' : category.category.id}) }}">Modifier</a>
                 |
-                <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
-                   href="{{ path('category_delete', {'id' : category.id}) }}">Supprimer</a>
+                        {{ include('category/_delete_form.html.twig') }}
                     {% endif %}
-
             </span>
             </li>
-
-
 
         {% endfor %}
     </ul>

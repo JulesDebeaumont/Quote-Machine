@@ -37,8 +37,6 @@ class Quote
 
 
 
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -79,4 +77,6 @@ class Quote
 
         return $this;
     }
+
+
 }

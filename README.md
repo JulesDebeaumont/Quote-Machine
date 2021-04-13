@@ -11,8 +11,7 @@ By:
 - Do a `git init`
 - Clone the project
 - Do a `composer install`
-- Do a `symfony composer req maker –dev`
-- Do a `composer require --dev orm-fixtures`
+
 
 
 

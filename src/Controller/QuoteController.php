@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quote;
 use App\Form\QuoteModifyFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,10 @@ class QuoteController extends AbstractController
     /**
      * @Route("/quotes", name="quote_index")
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
 
@@ -29,12 +31,20 @@ class QuoteController extends AbstractController
               ->orderBy('q.meta', 'ASC')
               ->getQuery();
 
-        $quotes = $query->getResult();
+        //$quotes = $query->getResult();
+        //useless 'cause of paginator
+
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         //dump($quotes);
         //dump($research);
 
-        return $this->render('quote/index.html.twig', ['quotes' => $quotes]);
+        return $this->render('quote/index.html.twig', ['pagination' => $pagination]);
     }
 
 
@@ -49,7 +59,7 @@ class QuoteController extends AbstractController
      */
     public function modifier(Quote $quote, Request $request) : Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'); //connected regardless roles
 
         $quoteManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(QuoteModifyFormType::class, $quote);

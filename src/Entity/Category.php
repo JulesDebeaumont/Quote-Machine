@@ -69,7 +69,6 @@ class Category
         return $this;
     }
 
-    die();
     /**
      * @return Collection|Quote[]
      */

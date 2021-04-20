@@ -21,7 +21,6 @@ class CategoryType extends AbstractType
                 'label' => 'Upload',
                 'required' => false,
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -19,8 +19,6 @@ class CategoryController extends AbstractController
 {
     /**
      * @Route("/", name="category_index", methods={"GET"})
-     * @param CategoryRepository $categoryRepository
-     * @return Response
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
@@ -33,7 +31,6 @@ class CategoryController extends AbstractController
 
         $categories = $query->getResult();
 
-
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
         ]);
@@ -41,8 +38,6 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/new", name="category_new", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -68,16 +63,14 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="category_show", methods={"GET"})
-     * @param PaginatorInterface $paginator
-     * @param Request $request
-     * @param Category $category
+     *
      * @return Response $request
      */
     public function show(PaginatorInterface $paginator, Request $request, Category $category): Response
     {
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
         $query = $repositoryQuote->createQueryBuilder('q')
-            ->select('q.id', 'q.meta', "q.content")
+            ->select('q.id', 'q.meta', 'q.content')
             ->join('q.category', 'c')
             ->orderBy('q.meta', 'ASC')
             ->getQuery();
@@ -89,6 +82,9 @@ class CategoryController extends AbstractController
             $request->query->getInt('page', 1),
             7
         );
+        // MARCHE PAS CORRECTEMENT VOIR PAGINATOR
+        var_dump($query);
+        // TEST GRUMP marche pas non plus
 
         return $this->render('category/show.html.twig', [
             'category' => $category,
@@ -98,9 +94,6 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Category $category
-     * @return Response
      */
     public function edit(Request $request, Category $category): Response
     {
@@ -123,9 +116,6 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="category_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Category $category
-     * @return Response
      */
     public function delete(Request $request, Category $category): Response
     {

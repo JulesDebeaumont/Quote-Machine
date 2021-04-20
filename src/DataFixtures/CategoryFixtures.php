@@ -11,10 +11,10 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $categories = json_decode(file_get_contents(
-            __DIR__ .
-            DIRECTORY_SEPARATOR .
-            'data' .
-            DIRECTORY_SEPARATOR .
+            __DIR__.
+            DIRECTORY_SEPARATOR.
+            'data'.
+            DIRECTORY_SEPARATOR.
             'category.json'
         ), true);
 

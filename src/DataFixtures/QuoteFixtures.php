@@ -4,8 +4,8 @@ namespace App\DataFixtures;
 
 use App\Factory\QuoteFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class QuoteFixtures extends Fixture implements DependentFixtureInterface
 {

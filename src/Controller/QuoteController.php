@@ -14,9 +14,6 @@ class QuoteController extends AbstractController
 {
     /**
      * @Route("/quotes", name="quote_index")
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @return Response
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -34,7 +31,6 @@ class QuoteController extends AbstractController
         //$quotes = $query->getResult();
         //useless 'cause of paginator
 
-
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -47,17 +43,10 @@ class QuoteController extends AbstractController
         return $this->render('quote/index.html.twig', ['pagination' => $pagination]);
     }
 
-
-
-
-
     /**
-     * @param Quote $quote
-     * @param Request $request
-     * @return Response
      * @Route("/quotes/{id}/modifier", name="quote_modifier")
      */
-    public function modifier(Quote $quote, Request $request) : Response
+    public function modifier(Quote $quote, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'); //connected regardless roles
 
@@ -65,7 +54,6 @@ class QuoteController extends AbstractController
         $form = $this->createForm(QuoteModifyFormType::class, $quote);
 
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quote = $form->getData();
@@ -77,11 +65,7 @@ class QuoteController extends AbstractController
         return $this->render('quote/modifier.html.twig', ['quote' => $quote, 'form' => $form->createView()]);
     }
 
-
-
     /**
-     * @param Request $request
-     * @return Response
      * @Route("/quotes/ajouter", name="quote_ajouter")
      */
     public function ajouter(Request $request): Response
@@ -107,21 +91,14 @@ class QuoteController extends AbstractController
         return $this->render('quote/ajouter.html.twig', ['form' => $form->createView()]);
     }
 
-
-
-
-
-
     /**
-     * @param Quote $quote
-     * @return Response
      * @Route("/quotes/{id}/supprimer", name="quote_supprimer")
      */
     public function supprimer(Quote $quote): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $quoteManager= $this->getDoctrine()->getManager();
+        $quoteManager = $this->getDoctrine()->getManager();
 
         $quoteManager->remove($quote);
         $quoteManager->flush();
@@ -130,7 +107,6 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @return Response
      * @Route ("/quotes/random", name="quote_random")
      */
     public function random(): Response

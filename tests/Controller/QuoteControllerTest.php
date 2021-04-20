@@ -4,26 +4,23 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Factory\CategoryFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Foundry\Test\Factories;
 
 class QuoteControllerTest extends WebTestCase
 {
+    use Factories;
+
     public function testListQuotes()
     {
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'random@outlook.fr',
+            'PHP_AUTH_PW' => 'iutinfo',
+        ]);
         $client->restart();
 
         $client->request('GET', '/');
-        $client->followRedirect();
-
-        //Connexion
-        $client->clickLink('Connexion');
-        $this->assertResponseIsSuccessful();
-
-        $client->submitForm('Se connecter', [
-            'email' => 'random@outlook.fr',
-            'password' => 'iutinfo',
-        ]);
         $client->followRedirect();
 
         //Création
@@ -63,5 +60,24 @@ class QuoteControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Liste des citations');
         $this->assertSelectorTextNotContains('body', 'Content modifié !');
         $this->assertSelectorTextNotContains('body', 'Meta modifié !');
+    }
+
+    public function testCategory()
+    {
+        //Création Category avec Foundry
+        $post = CategoryFactory::new() // Créer une nouvelle Factory de la classe Category
+        ->create([
+            'name' => 'FrankerZ',       // Avec comme nom FrankerZ
+        ]);
+
+        //static::ensureKernelShutdown();
+
+        //Connexion auto
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'admin@outlook.fr',
+            'PHP_AUTH_PW' => 'iutinfo',
+        ]);
+
+        $client->request('GET', '/category/');
     }
 }

@@ -83,8 +83,6 @@ class CategoryController extends AbstractController
             7
         );
         // MARCHE PAS CORRECTEMENT VOIR PAGINATOR
-        var_dump($query);
-        // TEST GRUMP marche pas non plus
 
         return $this->render('category/show.html.twig', [
             'category' => $category,

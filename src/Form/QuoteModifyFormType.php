@@ -17,7 +17,7 @@ class QuoteModifyFormType extends AbstractType
     {
         $builder
             ->add('content', TextType::class, [
-                'label' => 'La quote :',
+                'label' => 'quote',
                 ])
 
             ->add('meta', TextType::class, [
@@ -28,6 +28,7 @@ class QuoteModifyFormType extends AbstractType
                 'label' => 'La catégorie :',
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'required' => false,
             ])
 
             ->add('save', SubmitType::class, [

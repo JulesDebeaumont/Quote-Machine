@@ -1,5 +1,4 @@
 {%  extends "base.html.twig" %}
-{%  dump(pagination) %}
 {% block body %}
 
     <h1>Liste des citations
@@ -24,8 +23,11 @@
 
             {% endif %}
             |
-            <a class="badge badge-primary"
-               href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
+            {% if quote.category %}
+                <a class="badge badge-primary"
+                   href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
+            {% endif %}
+
 
         </span>
 

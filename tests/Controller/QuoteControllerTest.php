@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Controller;
@@ -11,10 +12,11 @@ class QuoteControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->restart();
-        $client->followRedirects();
 
-        $client ->request('GET', '/');
+        $client->request('GET', '/');
+        $client->followRedirect();
 
+        //Connexion
         $client->clickLink('Connexion');
         $this->assertResponseIsSuccessful();
 
@@ -22,18 +24,44 @@ class QuoteControllerTest extends WebTestCase
             'email' => 'random@outlook.fr',
             'password' => 'iutinfo',
         ]);
+        $client->followRedirect();
 
-
+        //Création
         $client->clickLink('Ajouter une quote');
         $this->assertResponseIsSuccessful();
 
         $client->submitForm('Enregistrer !', [
-            'La quote' => 'La quote du test',
-            'La source' => 'La source du test',
+            'quote_modify_form[content]' => 'La quote du test',
+            'quote_modify_form[meta]' => 'La source du test',
         ]);
+        $client->followRedirect();
+
+        //echo $client->getResponse()->getContent();
 
         $this->assertSelectorTextContains('h1', 'Liste des citations');
-        $this->assertSelectorTextContains('ul', 'La quote du test');
-        $this->assertSelectorTextContains('ul', 'La source du test');
+        $this->assertSelectorTextContains('.content', 'La quote du test');
+        $this->assertSelectorTextContains('.meta', 'La source du test');
+
+        //Modification
+        $client->clickLink('Modifier');
+        $this->assertResponseIsSuccessful();
+
+        $client->submitForm('Enregistrer !', [
+            'quote_modify_form[content]' => 'Content modifié !',
+            'quote_modify_form[meta]' => 'Meta modifié !',
+        ]);
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('h1', 'Liste des citations');
+        $this->assertSelectorTextContains('.content', 'Content modifié !');
+        $this->assertSelectorTextContains('.meta', 'Meta modifié !');
+
+        //Suppression
+        $client->clickLink('Supprimer');
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('h1', 'Liste des citations');
+        $this->assertSelectorTextNotContains('body', 'Content modifié !');
+        $this->assertSelectorTextNotContains('body', 'Meta modifié !');
     }
 }

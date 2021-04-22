@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Factory\CategoryFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Zenstruck\Foundry\Test\Factories;
 
 class QuoteControllerTest extends WebTestCase
 {
-    use Factories;
-
     public function testListQuotes()
     {
         $client = static::createClient([], [
@@ -61,25 +57,4 @@ class QuoteControllerTest extends WebTestCase
         $this->assertSelectorTextNotContains('body', 'Content modifié !');
         $this->assertSelectorTextNotContains('body', 'Meta modifié !');
     }
-
-    /*
-        public function testCategory()
-        {
-            //Création Category avec Foundry
-            $post = CategoryFactory::new() // Créer une nouvelle Factory de la classe Category
-            ->create([
-                'name' => 'FrankerZ',       // Avec comme nom FrankerZ
-            ]);
-
-            //static::ensureKernelShutdown();
-
-            //Connexion auto
-            $client = static::createClient([], [
-                'PHP_AUTH_USER' => 'admin@outlook.fr',
-                'PHP_AUTH_PW' => 'iutinfo',
-            ]);
-
-            $client->request('GET', '/category/');
-        }
-    */
 }

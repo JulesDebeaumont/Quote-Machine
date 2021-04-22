@@ -62,22 +62,24 @@ class QuoteControllerTest extends WebTestCase
         $this->assertSelectorTextNotContains('body', 'Meta modifié !');
     }
 
-    public function testCategory()
-    {
-        //Création Category avec Foundry
-        $post = CategoryFactory::new() // Créer une nouvelle Factory de la classe Category
-        ->create([
-            'name' => 'FrankerZ',       // Avec comme nom FrankerZ
-        ]);
+    /*
+        public function testCategory()
+        {
+            //Création Category avec Foundry
+            $post = CategoryFactory::new() // Créer une nouvelle Factory de la classe Category
+            ->create([
+                'name' => 'FrankerZ',       // Avec comme nom FrankerZ
+            ]);
 
-        //static::ensureKernelShutdown();
+            //static::ensureKernelShutdown();
 
-        //Connexion auto
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'admin@outlook.fr',
-            'PHP_AUTH_PW' => 'iutinfo',
-        ]);
+            //Connexion auto
+            $client = static::createClient([], [
+                'PHP_AUTH_USER' => 'admin@outlook.fr',
+                'PHP_AUTH_PW' => 'iutinfo',
+            ]);
 
-        $client->request('GET', '/category/');
-    }
+            $client->request('GET', '/category/');
+        }
+    */
 }

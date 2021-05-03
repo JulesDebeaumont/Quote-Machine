@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
@@ -28,29 +30,34 @@ class CategoryControllerTest extends WebTestCase
         ]);
     }
 
-    public function authAsRegularUser(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    public function getCategory(string $name): Category
     {
-        return $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'random@outlook.fr',
-            'PHP_AUTH_PW' => 'iutinfo',
-        ]);
+        return $this->getRepository()->findOneBy(['name' => $name]);
+    }
+
+    public function getRepository(): CategoryRepository
+    {
+        return self::$container->get('doctrine')->getRepository(Category::class);
+    }
+
+    public function getManager(): EntityManagerInterface
+    {
+        return self::$container->get('doctrine')->getManagerForClass(Category::class);
     }
 
     public function testCategoryCreate()
     {
         $client = $this->authAsAdmin();
 
-        $this->makeComicsCategory();
+        $client->request('GET', '/category/new');
 
-        $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
-        $comics = $manager->getRepository(Category::class)->findOneBy(['name' => 'Comics']);
+        $client->submitForm('Enregistrer', [
+            'category[name]' => 'Comics',
+        ]);
+        $client->followRedirect();
 
-        //Check dans la BD s'il existe la new catégorie
+        $comics = $this->getCategory('Comics');
         $this->assertSame('Comics', $comics->getName());
-
-        $client->request('GET', '/category/');
-
-        //echo $client->getResponse()->getContent();
 
         $this->assertSelectorTextContains('.content', 'Comics');
     }
@@ -61,22 +68,39 @@ class CategoryControllerTest extends WebTestCase
 
         $this->makeComicsCategory();
 
-        $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+        $client->request('GET', '/category/');
+        $client->clickLink('Modifier');
+
+        $client->submitForm('Enregistrer', [
+            'category[name]' => 'Rick & Morty',
+        ]);
+        $client->followRedirect();
+
+        $rick = $this->getCategory('Rick & Morty');
+        $this->assertSame('Rick & Morty', $rick->getName());
+
+        $client->request('GET', '/category/');
+        $this->assertSelectorTextContains('.content', 'Rick & Morty');
     }
 
     /*
-        public function testCategoryModifyAsNotAdmin()
-        {
-            $client = $this->authAsRegularUser();
-
-        }
-
         public function testCategoryDelete()
         {
-            $client = static::createClient([], [
-                'PHP_AUTH_USER' => 'admin@outlook.fr',
-                'PHP_AUTH_PW' => 'iutinfo',
-            ]);
+            $client = $this->authAsAdmin();
+
+            $this->makeComicsCategory();
+
+            $client->request('GET', '/category/');
+            $client->clickLink('Delete');
+            $client->followRedirect();
+
+            $this->assertSelectorTextNotContains('body', 'Comics');
+
+            $this->assertCount(0,
+                self::$container->
+                get('doctrine')->
+                getRepository(Category::class)->
+                findAll());
         }
     */
 }

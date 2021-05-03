@@ -101,8 +101,8 @@
             "php bin/console doctrine:migration:migrate --no-interaction",
             "php bin/console doctrine:fixtures:load --no-interaction"
         ],
-        "cs-fixer" : [
-            "vendor/bin/php-cs-fixer fix"
+        "cs" : [
+            "php-cs-fixer fix"
         ],
         "test" : [
             "php bin/console doctrine:database:drop --force --env=test",

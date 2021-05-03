@@ -55,17 +55,15 @@ class CategoryControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.content', 'Comics');
     }
 
-    /*
-        public function testCategoryModify()
-        {
-            $client = $this->authAsAdmin();
+    public function testCategoryModify()
+    {
+        $client = $this->authAsAdmin();
 
-            $this->makeComicsCategory();
+        $this->makeComicsCategory();
 
-            $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+        $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+    }
 
-
-        }
     /*
         public function testCategoryModifyAsNotAdmin()
         {

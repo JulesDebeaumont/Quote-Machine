@@ -9,9 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
-    public function testCategory()
+    public function makeComicsCategory()
     {
-        /*
         $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
 
         $category = new Category();
@@ -19,18 +18,67 @@ class CategoryControllerTest extends WebTestCase
 
         $manager->persist($category);
         $manager->flush();
+    }
 
-        $client = static::createClient([], [
+    public function authAsAdmin(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    {
+        return $client = static::createClient([], [
             'PHP_AUTH_USER' => 'admin@outlook.fr',
             'PHP_AUTH_PW' => 'iutinfo',
         ]);
+    }
+
+    public function authAsRegularUser(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    {
+        return $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'random@outlook.fr',
+            'PHP_AUTH_PW' => 'iutinfo',
+        ]);
+    }
+
+    public function testCategoryCreate()
+    {
+        $client = $this->authAsAdmin();
+
+        $this->makeComicsCategory();
+
+        $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+        $comics = $manager->getRepository(Category::class)->findOneBy(['name' => 'Comics']);
+
+        //Check dans la BD s'il existe la new catégorie
+        $this->assertSame('Comics', $comics->getName());
 
         $client->request('GET', '/category/');
 
-        $this->assertSelectorTextContains('.content', 'Comics');
+        //echo $client->getResponse()->getContent();
 
-        //Check dans la BD s'il existe
-        $manager->getRepository(Category::class)->findOneBy(['name' => 'Comics']);
-        */
+        $this->assertSelectorTextContains('.content', 'Comics');
     }
+
+    /*
+        public function testCategoryModify()
+        {
+            $client = $this->authAsAdmin();
+
+            $this->makeComicsCategory();
+
+            $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+
+
+        }
+    /*
+        public function testCategoryModifyAsNotAdmin()
+        {
+            $client = $this->authAsRegularUser();
+
+        }
+
+        public function testCategoryDelete()
+        {
+            $client = static::createClient([], [
+                'PHP_AUTH_USER' => 'admin@outlook.fr',
+                'PHP_AUTH_PW' => 'iutinfo',
+            ]);
+        }
+    */
 }

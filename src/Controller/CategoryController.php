@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
     {
         $query = $categoryRepository->createQueryBuilder('c')
             ->select('c AS category', 'COUNT(q.category) AS nb')
-            ->join('c.quotes', 'q')
+            ->leftJoin('c.quotes', 'q')
             ->groupBy('c')
             ->orderBy('nb', 'DESC')
             ->getQuery();

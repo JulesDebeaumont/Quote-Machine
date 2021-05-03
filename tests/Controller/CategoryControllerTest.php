@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
-    /*
     public function testCategory()
     {
         $category = new Category();
@@ -27,5 +26,4 @@ class CategoryControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.content', 'Comics');
     }
-    */
 }

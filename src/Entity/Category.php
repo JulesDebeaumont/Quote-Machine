@@ -2,16 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @Vich\Uploadable()
+ * @ApiResource(
+ *     attributes={"order"={"name": "ASC"}},
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"category:get"}}
+ *          },
+ *     }
+ * )
  */
 class Category
 {
@@ -24,6 +34,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"category:get", "quote:get"})
      */
     private $name;
 

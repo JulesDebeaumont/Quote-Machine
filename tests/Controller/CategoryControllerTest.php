@@ -11,11 +11,14 @@ class CategoryControllerTest extends WebTestCase
 {
     public function testCategory()
     {
+        /*
+        $manager = self::$container->get('doctrine')->getManagerForClass(Category::class);
+
         $category = new Category();
         $category->setName('Comics');
 
-        self::$container->get('doctrine')->getManagerForClass(Category::class)->persist($category);
-        self::$container->get('doctrine')->getManagerForClass(Category::class)->flush(); //methode
+        $manager->persist($category);
+        $manager->flush();
 
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'admin@outlook.fr',
@@ -25,5 +28,9 @@ class CategoryControllerTest extends WebTestCase
         $client->request('GET', '/category/');
 
         $this->assertSelectorTextContains('.content', 'Comics');
+
+        //Check dans la BD s'il existe
+        $manager->getRepository(Category::class)->findOneBy(['name' => 'Comics']);
+        */
     }
 }

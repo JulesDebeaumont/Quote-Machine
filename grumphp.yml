@@ -23,6 +23,7 @@ grumphp:
       verbose: true
       diff: false
       triggered_by: [ 'php' ]
+    phpunit: ~
 
   testsuites: []
   extensions: []

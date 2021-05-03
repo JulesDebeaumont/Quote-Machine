@@ -2,14 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ApiResource(
+ *     attributes={"order"={"name": "ASC"}},
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"user:get"}}
+ *          },
+ *     }
+ * )
  */
 class User implements UserInterface
 {
@@ -38,6 +48,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:get"})
      */
     private $name;
 

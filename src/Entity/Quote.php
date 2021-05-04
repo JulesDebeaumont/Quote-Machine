@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=QuoteRepository::class)
+ * @ApiFilter(SearchFilter::class, properties=
+ *     {
+ *     "content" : "partial",
+ *     "meta" : "partial",
+ *     })
  * @ApiResource(
  *     attributes={"order"={"meta": "ASC"}},
  *     collectionOperations={

@@ -185,6 +185,9 @@
     "jms/metadata": {
         "version": "2.5.0"
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.10"
+    },
     "knplabs/knp-components": {
         "version": "v3.0.2"
     },

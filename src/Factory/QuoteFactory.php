@@ -37,7 +37,7 @@ final class QuoteFactory extends ModelFactory
             [
                 'content' => self::faker()->text(100),
                 'meta' => self::faker()->name(),
-                'category' => CategoryFactory::random(),
+                'category' => CategoryFactory::randomOrCreate(),
             ];
     }
 

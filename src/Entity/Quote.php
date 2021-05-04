@@ -43,20 +43,20 @@ class Quote
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:get", "quote:getAll"})
+     * @Groups({"quote:read", "quote:readAll"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:get", "quote:getAll"})
+     * @Groups({"quote:read", "quote:readAll"})
      */
     private $meta;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="quotes")
-     * @Groups({"quote:get", "quote:getAll"})
+     * @Groups({"quote:read", "quote:readAll"})
      */
     private $category;
 

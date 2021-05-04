@@ -34,6 +34,7 @@ final class CategoryFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
+            'name' => self::faker()->name,
         ];
     }
 

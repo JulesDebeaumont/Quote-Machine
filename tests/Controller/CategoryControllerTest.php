@@ -113,4 +113,21 @@ class CategoryControllerTest extends WebTestCase
             getRepository(Category::class)->
             findAll());
     }
+
+    public function testCategoryDeleteAsRegularUser()
+    {
+        $client = $this->authAsRegularUser();
+
+        $this->makeComicsCategory();
+
+        $comics = $this->getCategory('Comics');
+        $idComics = $comics->getId();
+
+        $client->request('GET', '/category/');
+
+        $this->assertSelectorTextNotContains('body', 'Delete');
+        $client->request('DELETE', '/category/'.$idComics);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
 }

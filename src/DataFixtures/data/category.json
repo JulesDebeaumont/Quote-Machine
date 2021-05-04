@@ -1,11 +1,14 @@
 [
   {
-    "name": "Friends"
+    "name": "Friends",
+    "imageName": "friends.jpeg"
   },
   {
-    "name": "The IT Crowd"
+    "name": "The Witcher",
+    "imageName": "thewitcher.jpeg"
   },
   {
-    "name": "The Witcher"
+    "name": "The IT Crowd",
+    "imageName": "itcrowd.jpeg"
   }
 ]

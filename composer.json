@@ -96,6 +96,7 @@
             "@auto-scripts"
         ],
         "reset" : [
+            "php -r \"foreach(glob('public/images/*/*') as \\$file) unlink(\\$file);\"",
             "php bin/console doctrine:database:drop --force --if-exists",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:migration:migrate --no-interaction",

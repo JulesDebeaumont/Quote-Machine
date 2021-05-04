@@ -9,7 +9,7 @@
     <ul>
         {% for category in categories %}
             <li>
-                <img src="{{ vich_uploader_asset(category.category, "imageFile") }}" alt="{{ category.category.name }}"/>
+                <img src="{{ vich_uploader_asset(category.category, "imageFile") }}" alt="{{ category.category.name }}" width="300"/>
                 <span class="content">{{ category.category.name }}</span>
                 <span class="meta">
                 --<a href="{{  path('category_show', {'id': category.category.id}) }}"> Utiliser par {{ category.nb }} quotes</a>

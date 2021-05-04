@@ -11,13 +11,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=QuoteRepository::class)
  * @ApiResource(
- *     attributes={"order"={"name": "ASC"}},
+ *     attributes={"order"={"meta": "ASC"}},
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"quote:readAll"}}
+ *          },
+ *     },
  *     itemOperations={
  *          "get"={
- *              "normalization_context"={"groups"={"quote:get"}}
+ *              "normalization_context"={"groups"={"quote:read"}}
  *          },
  *     }
- * ) */
+ * )
+ */
 class Quote
 {
     /**
@@ -30,20 +36,20 @@ class Quote
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:get"})
+     * @Groups({"quote:get", "quote:getAll"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:get"})
+     * @Groups({"quote:get", "quote:getAll"})
      */
     private $meta;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="quotes")
-     * @Groups({"quote:get"})
+     * @Groups({"quote:get", "quote:getAll"})
      */
     private $category;
 

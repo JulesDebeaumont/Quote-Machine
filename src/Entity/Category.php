@@ -16,9 +16,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @ApiResource(
  *     attributes={"order"={"name": "ASC"}},
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"category:readAll"}}
+ *          },
+ *     },
  *     itemOperations={
  *          "get"={
- *              "normalization_context"={"groups"={"category:get"}}
+ *              "normalization_context"={"groups"={"category:read"}}
  *          },
  *     }
  * )
@@ -34,7 +39,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"category:get", "quote:get"})
+     * @Groups({"category:read", "category:readAll", "quote:get"})
      */
     private $name;
 

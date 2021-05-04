@@ -14,9 +14,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @ApiResource(
  *     attributes={"order"={"name": "ASC"}},
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"user:readAll"}}
+ *          },
+ *     },
  *     itemOperations={
  *          "get"={
- *              "normalization_context"={"groups"={"user:get"}}
+ *              "normalization_context"={"groups"={"user:read"}}
  *          },
  *     }
  * )
@@ -48,7 +53,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:get"})
+     * @Groups({"user:get", "user:getAll"})
      */
     private $name;
 

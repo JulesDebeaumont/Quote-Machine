@@ -30,6 +30,14 @@ class CategoryControllerTest extends WebTestCase
         ]);
     }
 
+    public function authAsRegularUser(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    {
+        return $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'random@outlook.fr',
+            'PHP_AUTH_PW' => 'iutinfo',
+        ]);
+    }
+
     public function getCategory(string $name): Category
     {
         return $this->getRepository()->findOneBy(['name' => $name]);
@@ -71,36 +79,38 @@ class CategoryControllerTest extends WebTestCase
         $client->request('GET', '/category/');
         $client->clickLink('Modifier');
 
+        $comics = $this->getCategory('Comics');
+        $idComics = $comics->getId();
+
         $client->submitForm('Enregistrer', [
             'category[name]' => 'Rick & Morty',
         ]);
         $client->followRedirect();
 
-        $rick = $this->getCategory('Rick & Morty');
+        $rick = $this->getRepository()->findOneBy(['id' => $idComics]);
         $this->assertSame('Rick & Morty', $rick->getName());
 
         $client->request('GET', '/category/');
         $this->assertSelectorTextContains('.content', 'Rick & Morty');
     }
 
-    /*
-        public function testCategoryDelete()
-        {
-            $client = $this->authAsAdmin();
+    public function testCategoryDeleteAsAdmin()
+    {
+        $client = $this->authAsAdmin();
 
-            $this->makeComicsCategory();
+        $this->makeComicsCategory();
 
-            $client->request('GET', '/category/');
-            $client->clickLink('Delete');
-            $client->followRedirect();
+        $client->request('GET', '/category/');
 
-            $this->assertSelectorTextNotContains('body', 'Comics');
+        $client->submitForm('Delete', []);
+        $client->followRedirect();
 
-            $this->assertCount(0,
-                self::$container->
-                get('doctrine')->
-                getRepository(Category::class)->
-                findAll());
-        }
-    */
+        $this->assertSelectorTextNotContains('body', 'Comics');
+
+        $this->assertCount(0,
+            self::$container->
+            get('doctrine')->
+            getRepository(Category::class)->
+            findAll());
+    }
 }

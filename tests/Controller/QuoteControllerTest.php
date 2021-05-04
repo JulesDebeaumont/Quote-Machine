@@ -10,7 +10,7 @@ class QuoteControllerTest extends WebTestCase
 {
     public function authAsAdmin(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
     {
-        return $client = static::createClient([], [
+        return static::createClient([], [
             'PHP_AUTH_USER' => 'admin@outlook.fr',
             'PHP_AUTH_PW' => 'iutinfo',
         ]);

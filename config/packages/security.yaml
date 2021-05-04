@@ -25,6 +25,8 @@ security:
                 # where to redirect after logout
                 target: quote_index
 
+            http_basic:
+                realm: ^/api/
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

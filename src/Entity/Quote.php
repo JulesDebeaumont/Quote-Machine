@@ -23,10 +23,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "get"={
  *              "normalization_context"={"groups"={"quote:readAll"}}
  *          },
+ *          "post"={
+ *              "normalization_context"={"groups"={"quote:post"}},
+ *              "denormalization_context"={"groups"={"quote:post"}},
+ *              "security"="is_granted('ROLE_USER')"
+ *          },
  *     },
  *     itemOperations={
  *          "get"={
  *              "normalization_context"={"groups"={"quote:read"}}
+ *          },
+ *          "patch"={
+ *              "normalization_context"={"groups"={"quote:patch"}},
+ *              "denormalization_context"={"groups"={"quote:patch"}},
+ *              "security"="is_granted('ROLE_USER')"
+ *          },
+ *          "delete"={
+ *              "normalization_context"={"groups"={"quote:delete"}},
+ *              "denormalization_context"={"groups"={"quote:delete"}},
+ *              "security"="is_granted('ROLE_USER')"
  *          },
  *     }
  * )
@@ -43,20 +58,20 @@ class Quote
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:read", "quote:readAll"})
+     * @Groups({"quote:read", "quote:readAll", "quote:delete", "quote:patch", "quote:post"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"quote:read", "quote:readAll"})
+     * @Groups({"quote:read", "quote:readAll", "quote:delete", "quote:patch", "quote:post"})
      */
     private $meta;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="quotes")
-     * @Groups({"quote:read", "quote:readAll"})
+     * @Groups({"quote:read", "quote:readAll", "quote:delete", "quote:patch", "quote:post"})
      */
     private $category;
 

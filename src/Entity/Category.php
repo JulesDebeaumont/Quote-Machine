@@ -20,10 +20,25 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *          "get"={
  *              "normalization_context"={"groups"={"category:readAll"}}
  *          },
+ *     "post"={
+ *              "normalization_context"={"groups"={"category:post"}},
+ *              "denormalization_context"={"groups"={"category:post"}},
+ *              "security"="is_granted('ROLE_ADMIN')"
+ *          },
  *     },
  *     itemOperations={
  *          "get"={
  *              "normalization_context"={"groups"={"category:read"}}
+ *          },
+ *          "patch"={
+ *              "normalization_context"={"groups"={"category:patch"}},
+ *              "denormalization_context"={"groups"={"category:patch"}},
+ *              "security"="is_granted('ROLE_ADMIN')"
+ *          },
+ *          "delete"={
+ *              "normalization_context"={"groups"={"category:delete"}},
+ *              "denormalization_context"={"groups"={"category:delete"}},
+ *              "security"="is_granted('ROLE_ADMIN')"
  *          },
  *     }
  * )
@@ -39,7 +54,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"category:read", "category:readAll", "quote:read"})
+     * @Groups({"category:read", "category:readAll", "quote:read", "category:delete", "category:patch", "category:post"})
      */
     private $name;
 

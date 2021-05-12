@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Event\QuoteCreatedEvent;
 use App\Form\QuoteModifyFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class QuoteController extends AbstractController
 {
@@ -28,9 +30,6 @@ class QuoteController extends AbstractController
               ->setParameter('research', $research)
               ->orderBy('q.meta', 'ASC')
               ->getQuery();
-
-        //$quotes = $query->getResult();
-        //useless 'cause of paginator
 
         $pagination = $paginator->paginate(
             $query,
@@ -65,7 +64,7 @@ class QuoteController extends AbstractController
     /**
      * @Route("/quotes/ajouter", name="quote_ajouter")
      */
-    public function ajouter(Request $request): Response
+    public function ajouter(Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -81,6 +80,9 @@ class QuoteController extends AbstractController
 
             $quoteManager->persist($quote);
             $quoteManager->flush();
+
+            $event = new QuoteCreatedEvent($quote);
+            $eventDispatcher->dispatch($event);
 
             return $this->redirectToRoute('quote_index', [], 301);
         }

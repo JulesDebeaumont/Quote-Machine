@@ -23,7 +23,8 @@
 
             {% endif %}
             |
-            by {{ quote.author.name }}
+            Proposé par <a href="{{ path('user_show', {'id' : quote.author.id}) }}">{{ quote.author.name }}</a>
+            le {{ quote.creationDate|date("m/d/Y") }}
             |
             {% if quote.category %}
                 <a class="badge badge-primary"

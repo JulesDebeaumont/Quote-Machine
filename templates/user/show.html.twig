@@ -3,6 +3,34 @@
 {% block body %}
     <h1>Profil de: {{ user.name }}</h1>
     <div>Membre de l'application depuis le {{ user.registrationDate|date("F jS \\a\\t g:ia") }}</div>
-    <a href="{{ path('quote_index') }}">Acceuil</a>
 
+    <div class="fiveLatestQuotes">
+        <h2><i>Les 5 dernières quotes de {{ user.name }}:</i></h2>
+
+        <ul>
+            {% for quote in quotes %}
+                <li>
+                    <span class="content">{{ quote.content }}</span>
+
+                    <span class="meta">
+            --{{ quote.meta }}
+
+                        {% if is_granted('QUOTE_EDIT', quote) %}
+                            <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
+                               href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
+            |
+            <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
+               href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
+
+                        {% endif %}
+            {% if quote.category %}
+                <a class="badge badge-primary"
+                   href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
+            {% endif %}
+
+        </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

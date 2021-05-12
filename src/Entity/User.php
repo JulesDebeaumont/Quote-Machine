@@ -70,10 +70,16 @@ class User implements UserInterface
      */
     private $registrationDate;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $experience;
+
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
         $this->registrationDate = new DateTime();
+        $this->experience = 0;
     }
 
     public function getId(): ?int
@@ -207,6 +213,18 @@ class User implements UserInterface
     public function setRegistrationDate(\DateTimeInterface $registrationDate): self
     {
         $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    public function getExperience(): ?int
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(int $experience): self
+    {
+        $this->experience = $experience;
 
         return $this;
     }

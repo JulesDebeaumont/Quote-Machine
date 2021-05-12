@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Profil de: {{ user.name }}</h1>
+    <div>Membre de l'application depuis le {{ user.registrationDate|date("F jS \\a\\t g:ia") }}</div>
+    <a href="{{ path('quote_index') }}">Acceuil</a>
+
+{% endblock %}

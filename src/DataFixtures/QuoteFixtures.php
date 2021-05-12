@@ -18,6 +18,7 @@ class QuoteFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

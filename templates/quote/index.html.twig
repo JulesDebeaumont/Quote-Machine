@@ -14,7 +14,7 @@
         <span class="meta">
             --{{ quote.meta }}
 
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('QUOTE_EDIT', quote) %}
             <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
                href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
             |
@@ -23,11 +23,12 @@
 
             {% endif %}
             |
+            by {{ quote.author.name }}
+            |
             {% if quote.category %}
                 <a class="badge badge-primary"
                    href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
             {% endif %}
-
 
         </span>
 

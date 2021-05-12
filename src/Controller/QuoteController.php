@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Quote;
 use App\Form\QuoteModifyFormType;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,19 +38,15 @@ class QuoteController extends AbstractController
             5
         );
 
-        //dump($quotes);
-        //dump($research);
-
         return $this->render('quote/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
      * @Route("/quotes/{id}/modifier", name="quote_modifier")
+     * @IsGranted("QUOTE_EDIT", subject="quote")
      */
     public function modifier(Quote $quote, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'); //connected regardless roles
-
         $quoteManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(QuoteModifyFormType::class, $quote);
 
@@ -93,11 +90,10 @@ class QuoteController extends AbstractController
 
     /**
      * @Route("/quotes/{id}/supprimer", name="quote_supprimer")
+     * @IsGranted("QUOTE_EDIT", subject="quote")
      */
     public function supprimer(Quote $quote): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $quoteManager = $this->getDoctrine()->getManager();
 
         $quoteManager->remove($quote);

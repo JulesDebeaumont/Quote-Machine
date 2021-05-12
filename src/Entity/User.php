@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,9 +65,15 @@ class User implements UserInterface
      */
     private $quotes;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $registrationDate;
+
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
+        $this->registrationDate = new DateTime();
     }
 
     public function getId(): ?int
@@ -188,6 +195,18 @@ class User implements UserInterface
                 $quote->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegistrationDate(): ?\DateTimeInterface
+    {
+        return $this->registrationDate;
+    }
+
+    public function setRegistrationDate(\DateTimeInterface $registrationDate): self
+    {
+        $this->registrationDate = $registrationDate;
 
         return $this;
     }

@@ -4,26 +4,29 @@
     <h1>Citation aléatoire</h1>
 
     <ul>
-            <li>
-                <span class="content">{{ quote[0].content }}</span>
+        <li>
+            <span class="content">{{ quote[0].content }}</span>
 
-                <span class="meta">
+            <span class="meta">
             --{{ quote[0].meta }}
 
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
-                           href="{{ path('quote_modifier', {'id' : quote[0].id}) }}">Modifier</a>
-            |
-            <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
+                {% if is_granted('QUOTE_EDIT', quote[0]) %}
+                    <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
+                       href="{{ path('quote_modifier', {'id' : quote[0].id}) }}">Modifier</a>
+                    |
+                    <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
                href="{{ path('quote_supprimer', {'id' : quote[0].id}) }}">Supprimer</a>
-
-                    {% endif %}
-            |
-            <a class="badge badge-primary"
-               href="{{ path('category_show', {'id' : quote[0].category.id}) }}">{{quote[0].category.name}}</a>
+                {% endif %}
+                |
+                by {{ quote[0].author.name }}
+                |
+                {% if quote[0].category %}
+                    <a class="badge badge-primary"
+                       href="{{ path('category_show', {'id' : quote[0].category.id}) }}">{{quote[0].category.name}}</a>
+                {% endif %}
         </span>
 
-            </li>
+        </li>
     </ul>
 
 {% endblock %}

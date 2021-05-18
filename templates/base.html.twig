@@ -22,6 +22,9 @@
     <body class="ml-3">
 
     {% set theme = '#f0f0f0' %}
+    {% if is_granted('ROLE_USER') %}
+        {% set theme = '#c8eafa' %}
+    {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         {% set theme = '#eaf0df' %}
     {% endif %}

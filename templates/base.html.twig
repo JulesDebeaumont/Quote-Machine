@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                     <a class="nav-link" href="{{  path('quote_index') }}">Liste des quotes</a>
+                     <a class="nav-link" href="{{  path('quote_index') }}">Liste quotes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{  path('quote_random') }}">Citation aléatoire</a>
@@ -41,17 +41,17 @@
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
-                   <a class="nav-link" href="{{  path('quote_ajouter') }}">Ajouter une quote</a>
+                   <a class="nav-link" href="{{  path('quote_ajouter') }}">Ajouter quote</a>
                 </li>
                 {% endif %}
 
                 <li class="nav-item">
-                      <a class="nav-link" href="{{  path('category_index') }}">Liste des catégories</a>
+                      <a class="nav-link" href="{{  path('category_index') }}">Liste catégories</a>
                 </li>
 
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                     <a class="nav-link" href="{{  path('category_new') }}">Ajouter une catégorie</a>
+                     <a class="nav-link" href="{{  path('category_new') }}">Ajouter catégorie</a>
                 </li>
                 {% endif %}
 
@@ -74,7 +74,7 @@
                         <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
                     </li>
                     <li>
-                        <a class="nav-link">Welcome {{ app.user.name }}</a>
+                        <a class="nav-link" href="{{ path('user_show', {'id' : app.user.id}) }}">{{ app.user.name }}</a>
                     </li>
 
                 {% else %}

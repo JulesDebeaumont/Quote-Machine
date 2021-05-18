@@ -228,4 +228,48 @@ class User implements UserInterface
 
         return $this;
     }
+
+    //For Event
+    public function getExpNeeded(): int
+    {
+        return $this->getExpLvl($this->getUserLevel() + 1) - $this->getExperience();
+    }
+
+    public function getExpLvl(int $level): int
+    {
+        if ($level <= 0) {
+            return 0;
+        } else {
+            return $this->getExpLvl($level - 1) + ($level - 1) * 100;
+        }
+    }
+
+    public function getUserLevel(): int
+    {
+        $lvl = 1;
+        $experience = $this->getExperience();
+
+        while ($experience > 0) {
+            $experience -= $this->getExpLvl($lvl);
+            ++$lvl;
+        }
+
+        return $lvl;
+    }
+
+    public function getProgressLevel(): int
+    {
+        $userExperience = $this->getExperience();
+
+        if ($userExperience === 0) {
+            return 0;
+        } else {
+            $expNextLvl = $this->getExpLvl($this->getUserLevel()); // 300
+
+            //    120 =              420            -     300
+            $expCurrentLvl = $userExperience - $expNextLvl;
+            //40  =    120      /    400           * 100
+            return ($expCurrentLvl / $expNextLvl) * 100;
+        }
+    }
 }

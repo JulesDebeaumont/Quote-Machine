@@ -14,7 +14,7 @@ class QuoteSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onQuoteCreate(QuoteCreatedEvent $event)
+    public function onQuoteCreate(QuoteCreatedEvent $event): void
     {
         $userExperience = $event->getQuote()->getAuthor()->getExperience();
         $quoteCategory = $event->getQuote()->getCategory();
@@ -23,7 +23,7 @@ class QuoteSubscriber implements EventSubscriberInterface
 
         //TO DO chopper catégorie dans userQuote
         foreach ($userQuotes as $userQuote) {
-            if ($userQuote.category === $quoteCategory) {
+            if ($userQuote->getCategory() === $quoteCategory) {
                 $firstInCategory = false;
             }
         }

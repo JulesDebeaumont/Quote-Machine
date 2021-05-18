@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Profil de: {{ user.name }}</h1>
     <div>Membre de l'application depuis le {{ user.registrationDate|date("F jS \\a\\t g:ia") }}</div>
-
+    <div class="ExperienceUser">Experience: {{ user.experience }} Level: {{ user.userLevel }} Progress: {{ user.progressLevel }} %</div>
     <div class="fiveLatestQuotes">
         <h2><i>Les 5 dernières quotes de {{ user.name }}:</i></h2>
 

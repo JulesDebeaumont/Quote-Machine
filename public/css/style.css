@@ -5,10 +5,14 @@ li
     flex-direction: column;
 }
 
-
 ul
 {
     margin-top: 50px;
+}
+
+html
+{
+    margin-right: 16px;
 }
 
 .meta
@@ -16,16 +20,13 @@ ul
     color: #707070;
     margin-bottom: 23px;
     display: flex;
-
 }
-
 
 .content
 {
     font-size: 1.2em;
     font-weight: bold;
 }
-
 
 h1
 {
@@ -45,7 +46,7 @@ h1
 
 .navigation
 {
-margin-top: 50px;
+    margin-top: 50px;
 }
 
 .meta > a , .meta > form > button

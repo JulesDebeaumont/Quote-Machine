@@ -253,7 +253,7 @@ class User implements UserInterface
             return $lvl;
         }
 
-        while ($experience >= $this->getExpLvl($lvl)) {
+        while (($experience - $this->getExpLvl($lvl)) >= $this->getExpLvl($lvl)) {
             ++$lvl;
         }
 
@@ -267,11 +267,11 @@ class User implements UserInterface
         if ($userExperience === 0) {
             return 0;
         } else {
-            $expNextLvl = $this->getExpLvl($this->getUserLevel()); // 300
+            $expNextLvl = $this->getExpLvl($this->getUserLevel());
 
-            //    120 =          420     -     300
-            $expCurrentLvl = $expNextLvl - $userExperience;
-            //40  =    120      /    400           * 100
+            //-100         =      300    -     400
+            $expCurrentLvl = $userExperience - $expNextLvl;
+            //33  =    -100        /    300           * 100
             return ($expCurrentLvl / $expNextLvl) * 100;
         }
     }

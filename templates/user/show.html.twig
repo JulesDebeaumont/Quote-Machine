@@ -2,8 +2,16 @@
 
 {% block body %}
     <h1>Profil de: {{ user.name }}</h1>
+    <div class="ExperienceUser">
+        <div class="UserLevel">Niveau <span>{{ user.userLevel }} </span></div>
+        <span>Prochain niveau :</span>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ user.progressLevel }}" style="width: {{ user.progressLevel }}%" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div>Experience: {{ user.experience }} </div>
+        <div>Progress: {{ user.progressLevel }} %</div>
+    </div>
     <div>Membre de l'application depuis le {{ user.registrationDate|date("F jS \\a\\t g:ia") }}</div>
-    <div class="ExperienceUser">Experience: {{ user.experience }} Level: {{ user.userLevel }} Progress: {{ user.progressLevel }} %</div>
     <div class="fiveLatestQuotes">
         <h2><i>Les 5 dernières quotes de {{ user.name }}:</i></h2>
 

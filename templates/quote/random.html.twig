@@ -5,24 +5,24 @@
 
     <ul>
         <li>
-            <span class="content">{{ quote[0].content }}</span>
+            <span class="content">{{ quote.content }}</span>
 
             <span class="meta">
-            --{{ quote[0].meta }}
+            --{{ quote.meta }}
 
-                {% if is_granted('QUOTE_EDIT', quote[0]) %}
+                {% if is_granted('QUOTE_EDIT', quote) %}
                     <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
-                       href="{{ path('quote_modifier', {'id' : quote[0].id}) }}">Modifier</a>
+                       href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
                     |
                     <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
-               href="{{ path('quote_supprimer', {'id' : quote[0].id}) }}">Supprimer</a>
+               href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
                 {% endif %}
                 |
-                by {{ quote[0].author.name }}
+                by {{ quote.author.name }}
                 |
-                {% if quote[0].category %}
+                {% if quote.category %}
                     <a class="badge badge-primary"
-                       href="{{ path('category_show', {'id' : quote[0].category.id}) }}">{{quote[0].category.name}}</a>
+                       href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
                 {% endif %}
         </span>
 

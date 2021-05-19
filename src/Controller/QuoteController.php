@@ -111,13 +111,8 @@ class QuoteController extends AbstractController
     {
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
 
-        $query = $repositoryQuote->createQueryBuilder('q')
-            ->orderBy('RAND()')
-            ->setMaxResults(1)
-            ->getQuery();
+        $query = $repositoryQuote->findRandom();
 
-        $quote = $query->getResult();
-
-        return $this->render('quote/random.html.twig', ['quote' => $quote]);
+        return $this->render('quote/random.html.twig', ['quote' => $query]);
     }
 }

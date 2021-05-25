@@ -44,11 +44,11 @@ class QuoteRepository extends ServiceEntityRepository
 
     public function findRandomWithoutRand(?string $category)
     {
-        if ($category) {
+        if ($category !== null) {
             $allIds = $this->createQueryBuilder('q')
                 ->select('q.id')
-                ->leftJoin('q.category', 'c')
-                ->where('c.name LIKE :category')
+                ->innerJoin('q.category', 'c')
+                ->where('c.name = :category')
                 ->setParameter('category', $category)
                 ->getQuery()
                 ->getResult();
@@ -60,7 +60,7 @@ class QuoteRepository extends ServiceEntityRepository
         }
 
         if (count($allIds) > 0) {
-            $randomId = array_rand($allIds);
+            $randomId = $allIds[array_rand($allIds)];
         } else {
             $randomId = -1;
         }

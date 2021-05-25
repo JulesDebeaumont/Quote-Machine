@@ -26,7 +26,7 @@ class RandomQuoteCommand extends Command
     {
         $this
             ->setDescription(self::$defaultDescription)
-            ->addOption('category', 'c', InputOption::VALUE_OPTIONAL, 'Category name of the quote')
+            ->addOption('category', 'c', InputOption::VALUE_REQUIRED, 'Category name of the quote')
             ->setHelp('This command allows you to pick a random quote from the database. --category to look for a specific category')
         ;
     }
@@ -46,6 +46,8 @@ class RandomQuoteCommand extends Command
                 $quote->getContent(),
                 ' ',
                 $quote->getMeta(),
+                ' ',
+                'From: '.$quote->getCategory()->getName(),
             ]);
         } else {
             if ($inputCategory !== null) {

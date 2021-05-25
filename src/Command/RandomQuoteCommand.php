@@ -39,11 +39,7 @@ class RandomQuoteCommand extends Command
         $quoteRepository = $this->container->get('doctrine')->getRepository('App:Quote');
         $inputCategory = $input->getOption('category');
 
-        if ($inputCategory === null) {
-            $quote = $quoteRepository->findRandom();
-        } else {
-            $quote = $quoteRepository->findRandomByCategory($input->getOption('category'));
-        }
+        $quote = $quoteRepository->findRandomWithoutRand($input->getOption('category'));
 
         if ($quote !== null) {
             $output->writeln([
@@ -53,7 +49,7 @@ class RandomQuoteCommand extends Command
             ]);
         } else {
             if ($inputCategory !== null) {
-                $io->warning('Pas de résultat pour la catégorie '.$input->getOption('category'));
+                $io->warning('Pas de résultat pour la catégorie '.$inputCategory);
             } else {
                 $io->warning('Pas de résultat dans la base de donnée ');
             }

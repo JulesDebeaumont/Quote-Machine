@@ -19,6 +19,7 @@ class QuoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Quote::class);
     }
 
+    //Uses RAND() function, but not working for SQLite DB so unconvenient for test purpose
     public function findRandom()
     {
         return $this->createQueryBuilder('q')
@@ -28,6 +29,7 @@ class QuoteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    //Uses RAND() function, but not working for SQLite DB so unconvenient for test purpose
     public function findRandomByCategory(string $category)
     {
         return $this->createQueryBuilder('q')
@@ -38,5 +40,31 @@ class QuoteRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findRandomWithoutRand(?string $category)
+    {
+        if ($category) {
+            $allIds = $this->createQueryBuilder('q')
+                ->select('q.id')
+                ->leftJoin('q.category', 'c')
+                ->where('c.name LIKE :category')
+                ->setParameter('category', $category)
+                ->getQuery()
+                ->getResult();
+        } else {
+            $allIds = $this->createQueryBuilder('q')
+                ->select('q.id')
+                ->getQuery()
+                ->getResult();
+        }
+
+        if (count($allIds) > 0) {
+            $randomId = array_rand($allIds);
+        } else {
+            $randomId = -1;
+        }
+
+        return $this->find($randomId);
     }
 }

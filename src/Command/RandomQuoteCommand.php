@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RandomQuoteCommand extends Command
@@ -25,21 +26,38 @@ class RandomQuoteCommand extends Command
     {
         $this
             ->setDescription(self::$defaultDescription)
-            ->addOption('category', null, InputOption::VALUE_NONE, 'Category name of the quote')
+            ->addOption('category', 'c', InputOption::VALUE_OPTIONAL, 'Category name of the quote')
             ->setHelp('This command allows you to pick a random quote from the database. --category to look for a specific category')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $quoteRepository = $this->container->get('doctrine')->getRepository('App:Quote');
-        $quote = $quoteRepository->findRandom();
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Citation aléatoire !');
 
-        $output->writeln([
-            $quote->getContent(),
-            ' ',
-            $quote->getMeta(),
-        ]);
+        $quoteRepository = $this->container->get('doctrine')->getRepository('App:Quote');
+        $inputCategory = $input->getOption('category');
+
+        if ($inputCategory === null) {
+            $quote = $quoteRepository->findRandom();
+        } else {
+            $quote = $quoteRepository->findRandomByCategory($input->getOption('category'));
+        }
+
+        if ($quote !== null) {
+            $output->writeln([
+                $quote->getContent(),
+                ' ',
+                $quote->getMeta(),
+            ]);
+        } else {
+            if ($inputCategory !== null) {
+                $io->warning('Pas de résultat pour la catégorie '.$input->getOption('category'));
+            } else {
+                $io->warning('Pas de résultat dans la base de donnée ');
+            }
+        }
 
         return 0;
     }

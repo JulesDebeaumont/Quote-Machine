@@ -27,4 +27,16 @@ class QuoteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findRandomByCategory(string $category)
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.category', 'c')
+            ->where('c.name LIKE :category')
+            ->setParameter('category', $category)
+            ->orderBy('RAND()')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

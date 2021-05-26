@@ -9,7 +9,9 @@
     <ul>
         {% for category in categories %}
             <li>
-                <img src="{{ vich_uploader_asset(category.category, "imageFile") }}" alt="{{ category.category.name }}" width="300"/>
+                {%  if vich_uploader_asset(category.category, "imageFile") is not null %}
+                    <img src="{{ vich_uploader_asset(category.category, "imageFile") | imagine_filter('small')}}" alt="{{ category.category.name }}"/>
+                {%  endif %}
                 <span class="content">{{ category.category.name }}</span>
                 <span class="meta">
                 --<a href="{{  path('category_show', {'id': category.category.id}) }}"> Utiliser par {{ category.nb }} quotes</a>
@@ -21,7 +23,7 @@
                 |
                         {{ include('category/_delete_form.html.twig') }}
                     {% endif %}
-            </span>
+                </span>
             </li>
 
         {% endfor %}

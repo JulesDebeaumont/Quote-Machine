@@ -5,15 +5,17 @@
 {% block body %}
     <h1>Category: {{ category.name }}</h1>
 
+    {%  if vich_uploader_asset(category, "imageFile") is not null %}
+        <img src="{{ vich_uploader_asset(category, "imageFile") | imagine_filter('medium')}}" alt="{{ category.name }}" class="mediumImage"/>
+    {%  endif %}
 
     <ul>
-
     {% for quote in pagination.items %}
         <li>
             <span class="content">{{ quote.content }}</span>
             <span class="meta">
             --{{ quote.meta }}
-        </span>
+            </span>
         </li>
     {%  endfor  %}
 

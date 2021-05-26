@@ -77,6 +77,7 @@ class CategoryControllerTest extends WebTestCase
         $this->makeComicsCategory();
 
         $client->request('GET', '/category/');
+
         $client->clickLink('Modifier');
 
         $comics = $this->getCategory('Comics');

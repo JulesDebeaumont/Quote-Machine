@@ -16,7 +16,7 @@ class RegistrationControllerTest extends WebTestCase
         $client->submitForm("S'enregistrer", [
             'registration_form[email]' => 'mailTest@random.fr',
             'registration_form[name]' => 'Test',
-            'registration_form[plainPassword]' => 'iutinfo',
+            'registration_form[plainPassword]' => 'Iutinfo51',
             'registration_form[agreeTerms]' => 1,
         ]);
 

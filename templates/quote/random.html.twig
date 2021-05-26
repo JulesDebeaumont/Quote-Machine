@@ -22,7 +22,7 @@
                 |
                 {% if quote.category %}
                     <a class="badge badge-primary"
-                       href="{{ path('category_show', {'id' : quote.category.id}) }}">{{quote.category.name}}</a>
+                       href="{{ path('category_show', {'slug' : quote.category.slug}) }}">{{quote.category.name}}</a>
                 {% endif %}
         </span>
 

@@ -122,12 +122,12 @@ class CategoryControllerTest extends WebTestCase
         $this->makeComicsCategory();
 
         $comics = $this->getCategory('Comics');
-        $idComics = $comics->getId();
+        $slugComics = $comics->getSlug();
 
         $client->request('GET', '/category/');
 
         $this->assertSelectorTextNotContains('body', 'Delete');
-        $client->request('DELETE', '/category/'.$idComics);
+        $client->request('DELETE', '/category/'.$slugComics);
 
         $this->assertResponseStatusCodeSame(403);
     }

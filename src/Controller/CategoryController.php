@@ -62,7 +62,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="category_show", methods={"GET"})
+     * @Route("/{slug}", name="category_show", methods={"GET"})
      *
      * @return Response $request
      */
@@ -75,14 +75,11 @@ class CategoryController extends AbstractController
             ->orderBy('q.meta', 'ASC')
             ->getQuery();
 
-        //$quotes = $query->getResult();
-
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             7
         );
-        // MARCHE PAS CORRECTEMENT VOIR PAGINATOR
 
         return $this->render('category/show.html.twig', [
             'category' => $category,
@@ -91,7 +88,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="category_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Category $category): Response
     {
@@ -113,7 +110,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="category_delete", methods={"DELETE"})
+     * @Route("/{slug}", name="category_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Category $category): Response
     {

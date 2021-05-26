@@ -73,6 +73,7 @@ class Quote
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="quotes")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      * @Groups({"quote:read", "quote:readAll", "quote:delete", "quote:patch", "quote:post"})
      */
     private $category;

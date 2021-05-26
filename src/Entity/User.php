@@ -210,12 +210,14 @@ class User implements UserInterface
         return $this->registrationDate;
     }
 
+    /*
     public function setRegistrationDate(\DateTimeInterface $registrationDate): self
     {
         $this->registrationDate = $registrationDate;
 
         return $this;
     }
+    */
 
     public function getExperience(): ?int
     {

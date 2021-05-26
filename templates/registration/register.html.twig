@@ -18,6 +18,7 @@
         {{ form_row(registrationForm.agreeTerms, {
             label: 'Accepter les conditions'
         }) }}
+        {{ form_row(registrationForm.captcha) }}
 
         <button type="submit" class="btn-primary btn">S'enregistrer</button>
     {{ form_end(registrationForm) }}

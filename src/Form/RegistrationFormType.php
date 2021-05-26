@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -53,7 +54,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        ;
+            ->add('captcha', CaptchaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

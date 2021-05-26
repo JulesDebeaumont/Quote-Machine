@@ -39,14 +39,12 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $email = (new Email())
-                ->from('random@example.com')
-                ->to('another@example.com')
-                ->subject('Test')
-                ->text("C'est un test !");
+                ->from('noreply@example.org')
+                ->to('user@example.com')
+                ->subject('Quote Machine Inscription')
+                ->text("Bienvenue {$user->getName()} ! \nMerci d'avoir rejoint la quote machine. \nÀ bientôt.");
 
             $mailer->send($email);
-            // do anything else you need here, like send an email
-            //TODO EMAIL
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,

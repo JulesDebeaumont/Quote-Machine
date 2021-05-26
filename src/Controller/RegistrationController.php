@@ -40,7 +40,7 @@ class RegistrationController extends AbstractController
 
             $email = (new Email())
                 ->from('noreply@example.org')
-                ->to('user@example.com')
+                ->to($user->getEmail())
                 ->subject('Quote Machine Inscription')
                 ->text("Bienvenue {$user->getName()} ! \nMerci d'avoir rejoint la quote machine. \nÀ bientôt.");
 

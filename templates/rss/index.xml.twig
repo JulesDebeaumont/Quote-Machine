@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Flux RSS des citations</title>
+        <description>Dernières citations publiées sur la Quote-Machine</description>
+        <pubDate>{{ "now"|date("m/d/Y") }}</pubDate>
+        <link>https://127.0.0.1:8000/quotes</link>
+        <language>fr</language>
+        {% for quote in quotes %}
+        <item>
+            <title>{{ quote.content }}</title>
+            <description>{{ quote.meta }}</description>
+            <pubDate>{{ quote.creationDate|date("m/d/Y") }}</pubDate>
+            <author>{{ quote.author.name }}</author>
+            <category>{{ quote.category.name }}</category>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

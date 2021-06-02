@@ -23,7 +23,10 @@ class QuoteRepository extends ServiceEntityRepository
     public function findRandom()
     {
         return $this->createQueryBuilder('q')
+            ->select('q', 'COUNT(l) AS nbLikes')
+            ->leftJoin('q.likes', 'l')
             ->orderBy('RAND()')
+            ->groupBy('q')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

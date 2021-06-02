@@ -70,9 +70,13 @@ class CategoryController extends AbstractController
     {
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
         $query = $repositoryQuote->createQueryBuilder('q')
-            ->select('q.id', 'q.meta', 'q.content')
+            ->select('q', 'COUNT(l) AS nbLikes')
             ->join('q.category', 'c')
-            ->orderBy('q.meta', 'ASC')
+            ->where('c.name LIKE :category')
+            ->setParameter('category', $category->getName())
+            ->leftJoin('q.likes', 'l')
+            ->groupBy('q')
+            ->orderBy('nbLikes', 'DESC')
             ->getQuery();
 
         $pagination = $paginator->paginate(

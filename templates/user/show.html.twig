@@ -40,5 +40,33 @@
                 </li>
             {% endfor %}
         </ul>
+
+        <h2><i>Les 5 derniers likes de {{ user.name }}:</i></h2>
+
+        <ul>
+            {% for like in likes %}
+                <li>
+                    <span class="content">{{ like.content }}</span>
+
+                    <span class="meta">
+            --{{ like.meta }}
+
+                        {% if is_granted('QUOTE_EDIT', like) %}
+                            <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
+                               href="{{ path('quote_modifier', {'id' : like.id}) }}">Modifier</a>
+            |
+            <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
+               href="{{ path('quote_supprimer', {'id' : like.id}) }}">Supprimer</a>
+
+                        {% endif %}
+                        {% if like.category %}
+                            <a class="badge badge-primary"
+                               href="{{ path('category_show', {'slug' : like.category.slug}) }}">{{like.category.name}}</a>
+                        {% endif %}
+
+        </span>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

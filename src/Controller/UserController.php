@@ -30,9 +30,20 @@ class UserController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $likes = $repositoryQuote->createQueryBuilder('q')
+            ->select('q')
+            ->leftJoin('q.likes', 'l')
+            ->where('l = :user')
+            ->setParameter('user', $user)
+            ->orderBy('q.creationDate', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
             'quotes' => $quotes,
+            'likes' => $likes,
         ]);
     }
 }

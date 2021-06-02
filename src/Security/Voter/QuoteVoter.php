@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class QuoteVoter extends Voter
 {
     public const EDIT = 'QUOTE_EDIT';
+    public const LIKE = 'QUOTE_LIKE';
 
     private $security;
 
@@ -24,7 +25,7 @@ class QuoteVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT])
+        return in_array($attribute, [self::EDIT, self::LIKE])
             && $subject instanceof \App\Entity\Quote;
     }
 
@@ -40,6 +41,8 @@ class QuoteVoter extends Voter
         switch ($attribute) {
             case self::EDIT:
                 return $this->canEdit($subject, $user);
+            case self::LIKE:
+                return $this->canLike($subject, $user);
         }
 
         return false;
@@ -49,5 +52,10 @@ class QuoteVoter extends Voter
     {
         return $user === $quote->getAuthor()
             || $this->security->isGranted('ROLE_ADMIN');
+    }
+
+    private function canLike(Quote $quote, User $user)
+    {
+        return $user !== $quote->getAuthor();
     }
 }

@@ -75,11 +75,17 @@ class User implements UserInterface
      */
     private $experience;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Quote::class, mappedBy="likes")
+     */
+    private $quoteLikes;
+
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
         $this->registrationDate = new DateTime();
         $this->experience = 0;
+        $this->quoteLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -272,5 +278,32 @@ class User implements UserInterface
                 return ($expCurrentLvl / $expNextLvl) * 100;
             }
         }
+    }
+
+    /**
+     * @return Collection|Quote[]
+     */
+    public function getQuoteLikes(): Collection
+    {
+        return $this->quoteLikes;
+    }
+
+    public function addQuoteLike(Quote $quoteLike): self
+    {
+        if (!$this->quoteLikes->contains($quoteLike)) {
+            $this->quoteLikes[] = $quoteLike;
+            $quoteLike->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuoteLike(Quote $quoteLike): self
+    {
+        if ($this->quoteLikes->removeElement($quoteLike)) {
+            $quoteLike->removeLike($this);
+        }
+
+        return $this;
     }
 }

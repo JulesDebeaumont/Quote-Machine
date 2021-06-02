@@ -26,10 +26,13 @@ class QuoteController extends AbstractController
         $research = "%{$research}%";
 
         $query = $repositoryQuote->createQueryBuilder('q')
-              ->where('q.content LIKE :research')
-              ->setParameter('research', $research)
-              ->orderBy('q.meta', 'ASC')
-              ->getQuery();
+            ->select('q', 'COUNT(l) AS nbLikes')
+            ->leftJoin('q.likes', 'l')
+            ->where('q.content LIKE :research')
+            ->setParameter('research', $research)
+            ->groupBy('q')
+            ->orderBy('nbLikes', 'DESC')
+            ->getQuery();
 
         $pagination = $paginator->paginate(
             $query,

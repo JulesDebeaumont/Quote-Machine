@@ -9,6 +9,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class QuoteSubscriber implements EventSubscriberInterface
 {
     private $manager;
+    public const QUOTE_CREATED_EXP = 100;
+    public const QUOTE_CREATED_FIRST_TIME_CATEGORY_EXP = 120;
 
     public function __construct(EntityManagerInterface $manager)
     {
@@ -38,9 +40,9 @@ class QuoteSubscriber implements EventSubscriberInterface
 
         $firstInCategory === false
             ?
-            $event->getQuote()->getAuthor()->setExperience($userExperience + 100)
+            $event->getQuote()->getAuthor()->setExperience($userExperience + self::QUOTE_CREATED_EXP)
             :
-            $event->getQuote()->getAuthor()->setExperience($userExperience + 120);
+            $event->getQuote()->getAuthor()->setExperience($userExperience + self::QUOTE_CREATED_FIRST_TIME_CATEGORY_EXP);
 
         $this->manager->flush();
     }

@@ -183,4 +183,9 @@ class Category
     {
         return $this->imageFile;
     }
+
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
 }

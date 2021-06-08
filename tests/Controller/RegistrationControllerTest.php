@@ -24,6 +24,6 @@ class RegistrationControllerTest extends WebTestCase
 
         $email = $this->getMailerMessage(0);
         $this->assertEmailHeaderSame($email, 'To', 'mailTest@random.fr');
-        $this->assertEmailTextBodyContains($email, "Bienvenue Test ! \nMerci d'avoir rejoint la quote machine. \nÀ bientôt.");
+        $this->assertEmailTextBodyContains($email, 'Bienvenue Test !');
     }
 }

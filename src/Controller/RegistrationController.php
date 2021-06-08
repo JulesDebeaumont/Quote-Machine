@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -38,11 +38,13 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $email = (new Email())
-                ->from('noreply@example.org')
+            $email = (new TemplatedEmail())
                 ->to($user->getEmail())
                 ->subject('Quote Machine Inscription')
-                ->text("Bienvenue {$user->getName()} ! \nMerci d'avoir rejoint la quote machine. \nÀ bientôt.");
+                ->textTemplate('emails/welcome.txt.twig')
+                ->context([
+                    'name' => $user->getName(),
+                ]);
 
             $mailer->send($email);
 

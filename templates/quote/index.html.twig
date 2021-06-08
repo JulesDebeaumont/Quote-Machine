@@ -63,8 +63,11 @@
 
     </ul>
 
+    <div class="paginatorAndCsv">
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
+    </div>
+        <a href="{{ path('csv_export') }}" style="padding: 5px; background-color: #565656; color: white; border: solid 1px black">CSV Export</a>
     </div>
 
 

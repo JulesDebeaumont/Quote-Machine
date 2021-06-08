@@ -263,7 +263,6 @@ class User implements UserInterface
         return $lvl;
     }
 
-    //TODO fix progress calculation, not working on lvl2??
     public function getProgressLevel(): int
     {
         $userExperience = $this->getExperience();

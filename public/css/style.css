@@ -141,3 +141,10 @@ h1
     flex-direction: row;
 }
 
+.paginatorAndCsv
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

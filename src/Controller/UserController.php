@@ -21,10 +21,12 @@ class UserController extends AbstractController
         $repositoryQuote = $this->getDoctrine()->getRepository(Quote::class);
 
         $quotes = $repositoryQuote->createQueryBuilder('q')
-            ->select('q')
+            ->select('q', 'COUNT(l) AS nbLikes')
+            ->leftJoin('q.likes', 'l')
             ->leftJoin('q.author', 'a')
             ->where('a.id = :author')
             ->setParameter('author', $user->getId())
+            ->groupBy('q')
             ->orderBy('q.creationDate', 'DESC')
             ->setMaxResults(5)
             ->getQuery()

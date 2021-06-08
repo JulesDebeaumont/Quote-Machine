@@ -37,7 +37,7 @@ class QuoteController extends AbstractController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            5
+            8
         );
 
         return $this->render('quote/index.html.twig', ['pagination' => $pagination]);

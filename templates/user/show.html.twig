@@ -18,25 +18,38 @@
         <ul>
             {% for quote in quotes %}
                 <li>
-                    <span class="content">{{ quote.content }}</span>
+                    <div class="item">
+            <span class="like">
+                    <svg focusable="false" data-prefix="far" data-icon="heart" class="svg-inline--fa fa-heart fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path></svg>
+                    {{ quote.nbLikes }}
+            </span>
 
-                    <span class="meta">
-            --{{ quote.meta }}
+                        <div class="itemContent">
+                            <span class="content">{{ quote[0].content }}</span>
+                            <span class="meta">
 
-                        {% if is_granted('QUOTE_EDIT', quote) %}
-                            <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
-                               href="{{ path('quote_modifier', {'id' : quote.id}) }}">Modifier</a>
+            --{{ quote[0].meta }}
+
+                                {% if is_granted('QUOTE_EDIT', quote[0]) %}
+                                    <a style="border: #565656 solid 1px; padding: 3px; color: #565656"
+                                       href="{{ path('quote_modifier', {'id' : quote[0].id}) }}">Modifier</a>
             |
             <a style="border: #B0413E solid 1px; padding: 3px; color: #B0413E"
-               href="{{ path('quote_supprimer', {'id' : quote.id}) }}">Supprimer</a>
+               href="{{ path('quote_supprimer', {'id' : quote[0].id}) }}">Supprimer</a>
 
-                        {% endif %}
-            {% if quote.category %}
+                                {% endif %}
+            |
+            Proposé par <a href="{{ path('user_show', {'id' : quote[0].author.id}) }}">{{ quote[0].author.name }}</a>
+            le {{ quote[0].creationDate|date("m/d/Y") }}
+            |
+            {% if quote[0].category %}
                 <a class="badge badge-primary"
-                   href="{{ path('category_show', {'slug' : quote.category.slug}) }}">{{quote.category.name}}</a>
+                   href="{{ path('category_show', {'slug' : quote[0].category.slug}) }}">{{quote[0].category.name}}</a>
             {% endif %}
 
         </span>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

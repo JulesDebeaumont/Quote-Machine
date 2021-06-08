@@ -263,6 +263,7 @@ class User implements UserInterface
         return $lvl;
     }
 
+    //TODO fix progress calculation, not working on lvl2??
     public function getProgressLevel(): int
     {
         $userExperience = $this->getExperience();
@@ -270,8 +271,8 @@ class User implements UserInterface
         if ($userExperience <= 0) {
             return 0;
         } else {
-            $expNextLvl = $this->getExpLvl($this->getUserLevel());
-            $expCurrentLvl = $userExperience - $expNextLvl;
+            $expNextLvl = $this->getExpLvl($this->getUserLevel() + 1) - $this->getExpLvl($this->getUserLevel());
+            $expCurrentLvl = $userExperience - $this->getExpLvl($this->getUserLevel());
             if ($expNextLvl === 0) {
                 return $userExperience;
             } else {

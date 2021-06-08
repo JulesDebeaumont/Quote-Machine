@@ -2,24 +2,24 @@
 
 namespace App\Command;
 
+use App\Repository\QuoteRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RandomQuoteCommand extends Command
 {
     protected static $defaultName = 'app:random-quote';
     protected static $defaultDescription = 'Pick a random quote from the database.';
 
-    private $container;
+    private $quoteRepository;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(QuoteRepository $quoteRepository)
     {
         parent::__construct();
-        $this->container = $container;
+        $this->quoteRepository = $quoteRepository;
     }
 
     protected function configure()
@@ -36,10 +36,9 @@ class RandomQuoteCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Citation aléatoire !');
 
-        $quoteRepository = $this->container->get('doctrine')->getRepository('App:Quote');
         $inputCategory = $input->getOption('category');
 
-        $quote = $quoteRepository->findRandomWithoutRand($input->getOption('category'));
+        $quote = $this->quoteRepository->findRandomWithoutRand($input->getOption('category'));
 
         if ($quote !== null) {
             $output->writeln([

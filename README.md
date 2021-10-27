@@ -1,9 +1,6 @@
-#Quote-Machine
-## TP Formation Continue DUT Info 2020-2021
+# Quote-Machine
 
-By:
-
-- *Jules Debeaumont*
+By *Jules Debeaumont*
 
 
 ### 1_Installation
@@ -11,7 +8,6 @@ By:
 - Do a `git init`
 - Clone the project
 - Do a `composer install`
-
 
 
 
@@ -56,5 +52,4 @@ Do a `symfony serve`
 
 - Execute CS-Fixer in src\: `composer cs-fixer` 
 - Delete, create and update database schema then run test: `composer test`
-- TP Link : https://tp-symfony-iut.netlify.app/
 
